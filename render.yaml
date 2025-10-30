@@ -36,6 +36,6 @@ services:
       - key: MONGODB_URI
         sync: false
       - key: CORS_ORIGIN
-        value: https://acebitsf.onrender.com,https://acebit-sindri-website.onrender.com,https://acebits.onrender.com
+        value: https://acebitsf.onrender.com,https://acebit-sindri-website.onrender.com,https://acebits.onrender.com,https://acebits.in,https://www.acebits.in
     autoDeploy: true
     branch: main 
