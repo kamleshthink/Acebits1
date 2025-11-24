@@ -95,10 +95,10 @@ const Core2k22 = () => {
       // email: "deepak.verma@bitsindri.ac.in"
     },
     {
-      name: "Deepak Patel",
+      name: "Deepak Prakash",
       position: "Operational Team",
       image: deepakp,
-      linkedin: "https://linkedin.com/in/deepak-patel",
+      linkedin: "https://www.linkedin.com/in/deepak-prakash-702ba3256",
       // email: "deepak.patel@bitsindri.ac.in"
     },
     {
