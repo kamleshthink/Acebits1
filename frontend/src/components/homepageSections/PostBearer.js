@@ -282,7 +282,7 @@ function App() {
       name: "Deepak Prakash",
       img: deepakp,
       review: "Secretary",
-      url: "#"
+      url: "https://www.linkedin.com/in/deepak-prakash-702ba3256"
     },
     {
       name: "Riya Gupta",
