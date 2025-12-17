@@ -190,31 +190,27 @@ const NavItem = ({ item, scrolled }) => {
   }
 
   return (
-      {item.href && item.href.startsWith('http') ? (
-        <a
-          href={item.href}
-          className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
-            scrolled 
-              ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' 
-              : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
-          }`}
-        >
-          <item.icon size={20} className="drop-shadow-lg" />
-          <span className="drop-shadow-sm">{item.name}</span>
-        </a>
-      ) : (
-        <Link
-          to={item.href}
-          className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
-            scrolled 
-              ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' 
-              : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
-          }`}
-        >
-          <item.icon size={20} className="drop-shadow-lg" />
-          <span className="drop-shadow-sm">{item.name}</span>
-        </Link>
-      )}
+    item.href && item.href.startsWith('http') ? (
+      <a
+        href={item.href}
+        className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
+          scrolled ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
+        }`}
+      >
+        <item.icon size={20} className="drop-shadow-lg" />
+        <span className="drop-shadow-sm">{item.name}</span>
+      </a>
+    ) : (
+      <Link
+        to={item.href}
+        className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
+          scrolled ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
+        }`}
+      >
+        <item.icon size={20} className="drop-shadow-lg" />
+        <span className="drop-shadow-sm">{item.name}</span>
+      </Link>
+    )
   );
 };
 
@@ -270,25 +266,25 @@ const MobileNavItem = ({ item, onClose, scrolled }) => {
   }
 
   return (
-      {item.href && item.href.startsWith('http') ? (
-        <a
-          href={item.href}
-          onClick={onClose}
-          className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
-        >
-          <item.icon size={20} className="sm:w-6 sm:h-6 drop-shadow-lg" />
-          <span className="text-sm sm:text-base font-medium drop-shadow-sm">{item.name}</span>
-        </a>
-      ) : (
-        <Link
-          to={item.href}
-          onClick={onClose}
-          className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
-        >
-          <item.icon size={20} className="sm:w-6 sm:h-6 drop-shadow-lg" />
-          <span className="text-sm sm:text-base font-medium drop-shadow-sm">{item.name}</span>
-        </Link>
-      )}
+    item.href && item.href.startsWith('http') ? (
+      <a
+        href={item.href}
+        onClick={onClose}
+        className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
+      >
+        <item.icon size={20} className="sm:w-6 sm:h-6 drop-shadow-lg" />
+        <span className="text-sm sm:text-base font-medium drop-shadow-sm">{item.name}</span>
+      </a>
+    ) : (
+      <Link
+        to={item.href}
+        onClick={onClose}
+        className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
+      >
+        <item.icon size={20} className="sm:w-6 sm:h-6 drop-shadow-lg" />
+        <span className="text-sm sm:text-base font-medium drop-shadow-sm">{item.name}</span>
+      </Link>
+    )
   );
 };
 
