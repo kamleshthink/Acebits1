@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X, ChevronDown, Home, Info, Users, Calendar, Image, Award, Settings } from "lucide-react";
 import logo from "../../assets/images/logo.png";
 
@@ -154,18 +155,33 @@ const NavItem = ({ item, scrolled }) => {
             }`}
           >
             {item.dropdown.map((dropdownItem, index) => (
-              <a
-                key={index}
-                href={dropdownItem.href}
-                className={`flex items-center space-x-3 px-4 py-3 transition-all duration-300 ${
-                  scrolled 
-                    ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' 
-                    : 'text-slate-800 hover:text-blue-800 hover:bg-blue-200/50'
-                }`}
-              >
-                <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                <span className="font-medium">{dropdownItem.name}</span>
-              </a>
+              dropdownItem.href && dropdownItem.href.startsWith('http') ? (
+                <a
+                  key={index}
+                  href={dropdownItem.href}
+                  className={`flex items-center space-x-3 px-4 py-3 transition-all duration-300 ${
+                    scrolled 
+                      ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' 
+                      : 'text-slate-800 hover:text-blue-800 hover:bg-blue-200/50'
+                  }`}
+                >
+                  <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                  <span className="font-medium">{dropdownItem.name}</span>
+                </a>
+              ) : (
+                <Link
+                  key={index}
+                  to={dropdownItem.href}
+                  className={`flex items-center space-x-3 px-4 py-3 transition-all duration-300 ${
+                    scrolled 
+                      ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' 
+                      : 'text-slate-800 hover:text-blue-800 hover:bg-blue-200/50'
+                  }`}
+                >
+                  <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                  <span className="font-medium">{dropdownItem.name}</span>
+                </Link>
+              )
             ))}
           </div>
         )}
@@ -174,17 +190,31 @@ const NavItem = ({ item, scrolled }) => {
   }
 
   return (
-    <a
-      href={item.href}
-      className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
-        scrolled 
-          ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' 
-          : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
-      }`}
-    >
-      <item.icon size={20} className="drop-shadow-lg" />
-      <span className="drop-shadow-sm">{item.name}</span>
-    </a>
+      {item.href && item.href.startsWith('http') ? (
+        <a
+          href={item.href}
+          className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
+            scrolled 
+              ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' 
+              : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
+          }`}
+        >
+          <item.icon size={20} className="drop-shadow-lg" />
+          <span className="drop-shadow-sm">{item.name}</span>
+        </a>
+      ) : (
+        <Link
+          to={item.href}
+          className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
+            scrolled 
+              ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' 
+              : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
+          }`}
+        >
+          <item.icon size={20} className="drop-shadow-lg" />
+          <span className="drop-shadow-sm">{item.name}</span>
+        </Link>
+      )}
   );
 };
 
@@ -211,15 +241,27 @@ const MobileNavItem = ({ item, onClose, scrolled }) => {
         {isDropdownOpen && (
           <div className="ml-6 sm:ml-8 mt-2 space-y-1 animate-slide-up bg-white/90 backdrop-blur-sm rounded-xl p-2 border border-gray-200/50 shadow-lg">
             {item.dropdown.map((dropdownItem, index) => (
-              <a
-                key={index}
-                href={dropdownItem.href}
-                onClick={onClose}
-                className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
-              >
-                <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                <span className="text-sm sm:text-base">{dropdownItem.name}</span>
-              </a>
+              dropdownItem.href && dropdownItem.href.startsWith('http') ? (
+                <a
+                  key={index}
+                  href={dropdownItem.href}
+                  onClick={onClose}
+                  className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
+                >
+                  <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                  <span className="text-sm sm:text-base">{dropdownItem.name}</span>
+                </a>
+              ) : (
+                <Link
+                  key={index}
+                  to={dropdownItem.href}
+                  onClick={onClose}
+                  className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
+                >
+                  <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                  <span className="text-sm sm:text-base">{dropdownItem.name}</span>
+                </Link>
+              )
             ))}
           </div>
         )}
@@ -228,14 +270,25 @@ const MobileNavItem = ({ item, onClose, scrolled }) => {
   }
 
   return (
-    <a
-      href={item.href}
-      onClick={onClose}
-      className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
-    >
-      <item.icon size={20} className="sm:w-6 sm:h-6 drop-shadow-lg" />
-      <span className="text-sm sm:text-base font-medium drop-shadow-sm">{item.name}</span>
-    </a>
+      {item.href && item.href.startsWith('http') ? (
+        <a
+          href={item.href}
+          onClick={onClose}
+          className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
+        >
+          <item.icon size={20} className="sm:w-6 sm:h-6 drop-shadow-lg" />
+          <span className="text-sm sm:text-base font-medium drop-shadow-sm">{item.name}</span>
+        </a>
+      ) : (
+        <Link
+          to={item.href}
+          onClick={onClose}
+          className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300 text-gray-800 hover:text-blue-600 hover:bg-blue-100/50 font-medium"
+        >
+          <item.icon size={20} className="sm:w-6 sm:h-6 drop-shadow-lg" />
+          <span className="text-sm sm:text-base font-medium drop-shadow-sm">{item.name}</span>
+        </Link>
+      )}
   );
 };
 
