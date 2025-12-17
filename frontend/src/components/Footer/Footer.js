@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { 
   Facebook, 
   Twitter, 
@@ -166,14 +167,25 @@ const Footer = () => {
             <h3 className="text-2xl font-bold text-blue-200 mb-6">Quick Links</h3>
             <nav className="space-y-3">
               {quickLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  className="group flex items-center text-gray-300 hover:text-white transition-all duration-300 hover:translate-x-2"
-                >
-                  <span className="text-blue-400 mr-3 group-hover:text-blue-300 transition-colors duration-300">›</span>
-                  <span className="font-medium text-sm">{link.name}</span>
-                </a>
+                link.href && link.href.startsWith('http') ? (
+                  <a
+                    key={index}
+                    href={link.href}
+                    className="group flex items-center text-gray-300 hover:text-white transition-all duration-300 hover:translate-x-2"
+                  >
+                    <span className="text-blue-400 mr-3 group-hover:text-blue-300 transition-colors duration-300">›</span>
+                    <span className="font-medium text-sm">{link.name}</span>
+                  </a>
+                ) : (
+                  <Link
+                    key={index}
+                    to={link.href}
+                    className="group flex items-center text-gray-300 hover:text-white transition-all duration-300 hover:translate-x-2"
+                  >
+                    <span className="text-blue-400 mr-3 group-hover:text-blue-300 transition-colors duration-300">›</span>
+                    <span className="font-medium text-sm">{link.name}</span>
+                  </Link>
+                )
               ))}
             </nav>
           </div>
