@@ -14,7 +14,7 @@ services:
       - key: GENERATE_SOURCEMAP
         value: false
       - key: REACT_APP_BACKEND_API
-        value: https://acebits-backend.onrender.com/api
+        value: https://acebit-backend-7kbc.onrender.com/api
     autoDeploy: true
     branch: main
 
@@ -36,6 +36,6 @@ services:
       - key: MONGODB_URI
         sync: false
       - key: CORS_ORIGIN
-        value: https://acebitsf.onrender.com,https://acebit-sindri-website.onrender.com,https://acebits.onrender.com,https://acebits.in,https://www.acebits.in
+        value: https://acebitsf.onrender.com,https://acebit-sindri-website.onrender.com,https://acebits.onrender.com,https://acebits.in,https://www.acebits.in,https://acebits1.onrender.com
     autoDeploy: true
     branch: main 
