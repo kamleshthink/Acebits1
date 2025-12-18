@@ -106,7 +106,7 @@ const HeroSection = () => {
                     const isAlumniFeature = feature.title === "Community";
                     const FeatureWrapper = isAlumniFeature ? 'a' : 'div';
                     const wrapperProps = isAlumniFeature ? {
-                      href: "https://alumni-connect-frontend-n3ac.onrender.com/",
+                      href: "https://alumniconnect.acebits.in/",
                       target: "_blank",
                       rel: "noopener noreferrer"
                     } : {};

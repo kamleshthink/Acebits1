@@ -37,7 +37,7 @@ const Navbar = () => {
       icon: Award,
       dropdown: [
         { name: "2K23", href: "/team2k23" },
-        { name: "2K22", href: "/core" },
+        { name: "2K22", href: "/team2k22" },
         { name: "2K21", href: "/team2k21" },
         { name: "2K20", href: "/team2k20" }
       ]
@@ -51,7 +51,7 @@ const Navbar = () => {
         { name: "Magazine", href: "/magazine" },
         { name: "Contact Us", href: "/contact" },
         { name: "Laboratory", href: "/lab" },
-        { name: "Alumni Connect", href: "https://alumni-connect-frontend-n3ac.onrender.com/" }
+        { name: "Alumni Connect", href: "https://alumniconnect.acebits.in/" }
       ]
     }
   ];
