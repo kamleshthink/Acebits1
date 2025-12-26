@@ -1,3 +1,31 @@
 # https://www.robotstxt.org/robotstxt.html
+# ACE BITS - Association of Civil Engineers, BIT Sindri
+# Official Website: https://acebits1.onrender.com
+
+# Allow all search engines to crawl
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /user/dashboard
+Disallow: /register/complete
+Disallow: /api/
+
+# Specific crawlers
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /user/dashboard
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /user/dashboard
+
+# Sitemap location
+Sitemap: https://acebits1.onrender.com/sitemap.xml
+
+# Crawl delay (optional - helps prevent server overload)
+Crawl-delay: 1
