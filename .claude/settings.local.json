@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(\"/c/Program Files/Amazon/AWSCLIV2/aws.exe\" s3api put-public-access-block --bucket acebits-frontend --public-access-block-configuration \"BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false\")"
-    ]
-  }
-}
