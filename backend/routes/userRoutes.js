@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
   registerUser,
+  loginUser,
   getAllUsers,
   getUserById,
   getUserByRegNo
@@ -9,6 +10,9 @@ const {
 
 // POST /api/users/register - Register a new user
 router.post('/register', registerUser);
+
+// POST /api/users/login - Login user
+router.post('/login', loginUser);
 
 // GET /api/users - Get all users
 router.get('/', getAllUsers);

@@ -269,11 +269,20 @@ const Footer = () => {
               </p>
             </div>
             
-            <div className="flex items-center space-x-3 text-gray-400 text-sm">
+            <div className="flex items-center space-x-2 text-gray-400 text-sm">
               <span>Made with</span>
-              <Heart size={18} className="text-red-500 animate-pulse" />
-              <span>by ACE Team</span>
-              <Shield size={18} className="text-green-500 ml-2" />
+              <Heart size={16} className="text-red-500 animate-pulse" />
+              <span>by</span>
+              <a
+                href="https://kamtech-solutions.onrender.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
+              >
+                Pragyatek
+              </a>
+              <span>&</span>
+              <span className="text-white font-medium">ACE Team</span>
             </div>
           </div>
         </div>

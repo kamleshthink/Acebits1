@@ -1,0 +1,487 @@
+/* PYQ Page Styles */
+.pyq-page {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header-content h1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.header-content h1 svg {
+    color: var(--dash-accent);
+}
+
+.header-content p {
+    color: var(--dash-text-secondary);
+}
+
+.upload-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--dash-gradient);
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--dash-accent-glow);
+}
+
+/* Exam Categories */
+.exam-categories {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.exam-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--dash-bg-card);
+    border: 1px solid var(--dash-border);
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--dash-text-primary);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.exam-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--exam-color);
+}
+
+.exam-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--exam-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.exam-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--exam-color);
+}
+
+.exam-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.exam-info span {
+    font-size: 0.85rem;
+    color: var(--dash-text-muted);
+}
+
+.exam-arrow {
+    margin-left: auto;
+    color: var(--dash-text-muted);
+    transition: transform 0.2s ease;
+}
+
+.exam-card:hover .exam-arrow {
+    transform: translateX(4px);
+    color: var(--exam-color);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: var(--dash-text-muted);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: var(--dash-accent);
+}
+
+.breadcrumb svg {
+    color: var(--dash-text-muted);
+}
+
+.breadcrumb span:last-child {
+    color: var(--dash-text-primary);
+    font-weight: 500;
+}
+
+/* Filters Section */
+.filters-section {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.search-filter {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.search-filter input {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    background: var(--dash-bg-card);
+    border: 1px solid var(--dash-border);
+    border-radius: 12px;
+    color: var(--dash-text-primary);
+    font-size: 0.95rem;
+}
+
+.search-filter input:focus {
+    outline: none;
+    border-color: var(--dash-accent);
+}
+
+.search-filter svg {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--dash-text-muted);
+}
+
+.filter-group {
+    display: flex;
+    gap: 12px;
+}
+
+.filter-group select {
+    padding: 14px 16px;
+    background: var(--dash-bg-card);
+    border: 1px solid var(--dash-border);
+    border-radius: 12px;
+    color: var(--dash-text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-width: 150px;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--dash-accent);
+}
+
+/* Papers List */
+.papers-list {
+    background: var(--dash-bg-card);
+    border: 1px solid var(--dash-border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--dash-border);
+}
+
+.results-count {
+    font-size: 0.95rem;
+    color: var(--dash-text-secondary);
+}
+
+.sort-options {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sort-options svg {
+    color: var(--dash-text-muted);
+}
+
+.sort-options select {
+    background: transparent;
+    border: none;
+    color: var(--dash-text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Papers Grid */
+.papers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 20px;
+}
+
+.paper-card {
+    background: var(--dash-bg-tertiary);
+    border: 1px solid var(--dash-border);
+    border-radius: 14px;
+    padding: 20px;
+    transition: all 0.2s ease;
+}
+
+.paper-card:hover {
+    border-color: var(--dash-accent);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+}
+
+.paper-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.exam-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.exam-badge.gate { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+.exam-badge.ese { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.exam-badge.ssc-je { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.exam-badge.psc { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+.exam-badge.university { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+
+.solution-badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
+
+.paper-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.paper-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    font-size: 0.8rem;
+    color: var(--dash-text-muted);
+}
+
+.paper-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.paper-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+    color: var(--dash-text-secondary);
+}
+
+.paper-stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.paper-stats .rating {
+    color: #fbbf24;
+}
+
+.paper-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.download-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    background: var(--dash-gradient);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--dash-accent-glow);
+}
+
+.action-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dash-bg-secondary);
+    border: 1px solid var(--dash-border);
+    border-radius: 10px;
+    color: var(--dash-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    border-color: var(--dash-accent);
+    color: var(--dash-accent);
+}
+
+.paper-footer {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--dash-border);
+    font-size: 0.8rem;
+    color: var(--dash-text-muted);
+}
+
+.paper-footer span {
+    color: var(--dash-accent);
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.page-btn {
+    padding: 10px 20px;
+    background: var(--dash-bg-card);
+    border: 1px solid var(--dash-border);
+    border-radius: 10px;
+    color: var(--dash-text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: var(--dash-accent);
+    color: var(--dash-accent);
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-numbers {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-num {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dash-bg-card);
+    border: 1px solid var(--dash-border);
+    border-radius: 10px;
+    color: var(--dash-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page-num:hover {
+    border-color: var(--dash-accent);
+    color: var(--dash-accent);
+}
+
+.page-num.active {
+    background: var(--dash-accent);
+    border-color: var(--dash-accent);
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .exam-categories {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .papers-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .exam-categories {
+        grid-template-columns: 1fr;
+    }
+
+    .filters-section {
+        flex-direction: column;
+    }
+
+    .filter-group {
+        flex-wrap: wrap;
+    }
+
+    .filter-group select {
+        flex: 1;
+        min-width: 120px;
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "acebits-lambda-api",
+  "version": "1.0.0",
+  "description": "ACE BITS API Lambda Functions",
+  "main": "index.js",
+  "dependencies": {
+    "mongoose": "^7.0.0"
+  }
+}

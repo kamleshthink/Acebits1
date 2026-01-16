@@ -18,7 +18,7 @@ const ServiceCards = () => {
         </Row>
         <Row>
           <Col md={3} sm={12}>
-            <div className="cards">
+            <div className="cards lightning-hover">
               <Card>
                 <Card.Body>
                   <p className="text-secondary mb-2 small">August 07, 2021</p>
@@ -40,7 +40,7 @@ const ServiceCards = () => {
             </div>
           </Col>
           <Col md={3} sm={12}>
-            <div className="cards">
+            <div className="cards aurora-hover">
               <Card>
                 <Card.Body>
                   <p className="text-secondary mb-2 small">April 3 2021</p>
@@ -62,7 +62,7 @@ const ServiceCards = () => {
             </div>
           </Col>
           <Col md={3} sm={12}>
-            <div className="cards ">
+            <div className="cards particle-hover">
               <Card>
                 <Card.Body>
                   <p className="text-secondary mb-2 small">April 3 2019</p>
@@ -85,7 +85,7 @@ const ServiceCards = () => {
             </div>
           </Col>
           <Col md={3} sm={12}>
-            <div className="cards">
+            <div className="cards glow-wave-hover">
               <Card>
                 <Card.Body>
                   <p className="text-secondary mb-2 small">April 3 2019</p>

@@ -57,14 +57,71 @@ const HeroSection = () => {
         autoPlay
         muted
         loop
-        className="absolute inset-0 w-full h-full object-cover opacity-40"
+        playsInline
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: 0.6, zIndex: 1 }}
       >
         <source src="/videos/background.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
+      {/* Animated Civil Engineering Elements Overlay */}
+      <div className="ce-elements-overlay absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Floating Bridge SVG */}
+        <svg className="ce-bridge absolute" style={{ top: '10%', left: '5%', width: '120px', opacity: 0.15 }} viewBox="0 0 200 100">
+          <path d="M10 80 Q50 20 100 80 Q150 20 190 80" stroke="#60a5fa" strokeWidth="3" fill="none" className="animate-bridge"/>
+          <line x1="30" y1="80" x2="30" y2="50" stroke="#60a5fa" strokeWidth="2"/>
+          <line x1="100" y1="80" x2="100" y2="20" stroke="#60a5fa" strokeWidth="2"/>
+          <line x1="170" y1="80" x2="170" y2="50" stroke="#60a5fa" strokeWidth="2"/>
+          <line x1="10" y1="80" x2="190" y2="80" stroke="#60a5fa" strokeWidth="3"/>
+        </svg>
+
+        {/* Floating Building SVG */}
+        <svg className="ce-building absolute" style={{ top: '15%', right: '10%', width: '80px', opacity: 0.12 }} viewBox="0 0 100 150">
+          <rect x="10" y="30" width="80" height="120" stroke="#a78bfa" strokeWidth="2" fill="none"/>
+          <rect x="20" y="40" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <rect x="45" y="40" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <rect x="65" y="40" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <rect x="20" y="70" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <rect x="45" y="70" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <rect x="65" y="70" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <rect x="20" y="100" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <rect x="45" y="100" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <rect x="65" y="100" width="15" height="20" stroke="#a78bfa" strokeWidth="1" fill="none"/>
+          <polygon points="10,30 50,5 90,30" stroke="#a78bfa" strokeWidth="2" fill="none"/>
+        </svg>
+
+        {/* Floating Crane SVG */}
+        <svg className="ce-crane absolute" style={{ bottom: '20%', left: '8%', width: '100px', opacity: 0.1 }} viewBox="0 0 120 150">
+          <line x1="60" y1="150" x2="60" y2="20" stroke="#fbbf24" strokeWidth="4"/>
+          <line x1="20" y1="20" x2="110" y2="20" stroke="#fbbf24" strokeWidth="3"/>
+          <line x1="60" y1="20" x2="100" y2="60" stroke="#fbbf24" strokeWidth="2"/>
+          <rect x="90" y="55" width="20" height="25" stroke="#fbbf24" strokeWidth="2" fill="none" className="animate-crane-load"/>
+          <line x1="40" y1="150" x2="80" y2="150" stroke="#fbbf24" strokeWidth="4"/>
+        </svg>
+
+        {/* Floating Dam SVG */}
+        <svg className="ce-dam absolute" style={{ bottom: '15%', right: '5%', width: '140px', opacity: 0.1 }} viewBox="0 0 200 100">
+          <path d="M10 90 L30 20 L170 20 L190 90 Z" stroke="#22d3ee" strokeWidth="2" fill="none"/>
+          <line x1="50" y1="90" x2="50" y2="30" stroke="#22d3ee" strokeWidth="1"/>
+          <line x1="100" y1="90" x2="100" y2="20" stroke="#22d3ee" strokeWidth="1"/>
+          <line x1="150" y1="90" x2="150" y2="30" stroke="#22d3ee" strokeWidth="1"/>
+          <path d="M0 95 Q50 85 100 95 Q150 105 200 95" stroke="#22d3ee" strokeWidth="2" fill="none" className="animate-water"/>
+        </svg>
+
+        {/* Blueprint Grid Lines */}
+        <div className="blueprint-grid absolute inset-0" style={{
+          backgroundImage: `
+            linear-gradient(rgba(96,165,250,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(96,165,250,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px'
+        }}></div>
+      </div>
+
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/30 to-black/40"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-black/50"></div>
 
       {/* Content */}
       <div className="relative z-10 flex items-start md:items-center justify-center min-h-[56vh] md:min-h-screen">
@@ -115,7 +172,7 @@ const HeroSection = () => {
                       <FeatureWrapper
                         key={index}
                         {...wrapperProps}
-                        className="relative flex flex-col md:flex-row items-center justify-center text-center md:text-left md:justify-start space-y-2 md:space-y-0 md:space-x-3 p-2 md:p-3 rounded-xl backdrop-blur-sm border border-white/5 ring-1 ring-white/3 bg-gradient-to-b from-white/5 to-white/2 overflow-hidden transform-gpu will-change-transform hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 cursor-pointer"
+                        className="relative flex flex-col md:flex-row items-center justify-center text-center md:text-left md:justify-start space-y-2 md:space-y-0 md:space-x-3 p-2 md:p-3 rounded-xl backdrop-blur-sm border border-white/5 ring-1 ring-white/3 bg-gradient-to-b from-white/5 to-white/2 overflow-hidden transform-gpu will-change-transform hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 cursor-pointer lightning-hover"
                         style={{
                           boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), 0 12px 28px rgba(0,0,0,0.55)'
                         }}
@@ -134,18 +191,18 @@ const HeroSection = () => {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center animate-slide-up" style={{animationDelay: '0.8s'}}>
-                  <button 
+                  <button
                     onClick={() => history.push('/about')}
-                    className="group relative px-5 md:px-7 py-2.5 md:py-3.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-full text-sm md:text-lg transition-all duration-300 hover:from-yellow-400 hover:to-orange-400 hover:scale-105 hover:shadow-2xl flex items-center justify-center"
+                    className="group relative px-5 md:px-7 py-2.5 md:py-3.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-full text-sm md:text-lg transition-all duration-300 hover:from-yellow-400 hover:to-orange-400 hover:scale-105 hover:shadow-2xl flex items-center justify-center aurora-hover"
                   >
                     <Play size={20} className="mr-2 group-hover:animate-pulse" />
                     Explore About Us
                     <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                   </button>
 
-                  <button 
+                  <button
                     onClick={() => history.push('/contact')}
-                    className="group relative px-5 md:px-7 py-2.5 md:py-3.5 border-2 border-white text-white font-semibold rounded-full text-sm md:text-lg transition-all duration-500 hover:scale-110 hover:shadow-2xl flex items-center justify-center overflow-hidden bg-transparent hover:bg-white hover:text-slate-900"
+                    className="group relative px-5 md:px-7 py-2.5 md:py-3.5 border-2 border-white text-white font-semibold rounded-full text-sm md:text-lg transition-all duration-500 hover:scale-110 hover:shadow-2xl flex items-center justify-center overflow-hidden bg-transparent hover:bg-white hover:text-slate-900 glow-wave-hover"
                   >
                     <Users size={20} className="mr-2 transition-all duration-300 group-hover:scale-110" />
                     <span className="transition-all duration-300">Join Our Community</span>

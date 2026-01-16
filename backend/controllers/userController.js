@@ -3,7 +3,15 @@ const User = require('../models/User');
 // Register a new user
 const registerUser = async (req, res) => {
   try {
-    const { name, email, phone, registrationNumber, branch, college, year, address } = req.body;
+    const { name, email, password, registrationNumber, branch, year } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !password || !registrationNumber || !branch || !year) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields'
+      });
+    }
 
     // Check if user already exists
     const existingUser = await User.findOne({
@@ -29,24 +37,22 @@ const registerUser = async (req, res) => {
     const user = await User.create({
       name,
       email,
-      phone,
+      password,
       registrationNumber,
       branch,
-      college: college || 'BIT Sindri',
       year,
-      address
+      college: 'BIT Sindri'
     });
 
     res.status(201).json({
       success: true,
-      message: 'Registration successful! Welcome to ACE BITS Community',
+      message: 'Registration successful! Welcome to ACE BITS',
       data: {
         id: user._id,
         name: user.name,
         email: user.email,
         registrationNumber: user.registrationNumber,
-        branch: user.branch,
-        registeredAt: user.registeredAt
+        branch: user.branch
       }
     });
 
@@ -154,8 +160,63 @@ const getUserByRegNo = async (req, res) => {
   }
 };
 
+// Login user
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validate
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide email and password'
+      });
+    }
+
+    // Find user
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid email or password'
+      });
+    }
+
+    // Check password
+    const isMatch = await user.matchPassword(password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid email or password'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Login successful!',
+      data: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        registrationNumber: user.registrationNumber,
+        branch: user.branch
+      }
+    });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error. Please try again.'
+    });
+  }
+};
+
 module.exports = {
   registerUser,
+  loginUser,
   getAllUsers,
   getUserById,
   getUserByRegNo

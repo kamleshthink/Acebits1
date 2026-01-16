@@ -439,9 +439,8 @@ function App() {
                   className={`group relative w-full text-left rounded-2xl p-[2px] bg-gradient-to-br ${gradient} hover:shadow-[0_18px_40px_rgba(0,0,0,0.6)] transition-all duration-300 transform-gpu hover:-translate-y-1 hover:scale-[1.01]`}
                 >
                   <div className="relative h-full rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-sm p-4 sm:p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_12px_28px_rgba(0,0,0,0.5)]">
-                    <div className="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden ring-2 ring-white/30 group-hover:ring-white/60 transition">
-                      <img src={d.img} alt={d.name} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden ring-2 ring-white/30 group-hover:ring-yellow-400/60 group-hover:ring-4 transition-all duration-300">
+                      <img src={d.img} alt={d.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
                       <span className="pointer-events-none absolute -top-6 -left-6 w-1/2 h-1/2 bg-white/10 blur-xl rounded-full opacity-60"></span>
                     </div>
 

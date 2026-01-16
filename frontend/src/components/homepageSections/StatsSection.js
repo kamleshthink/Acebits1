@@ -101,8 +101,8 @@ const StatsSection = () => {
         <Row className="g-4">
           {stats.map((stat, index) => (
             <Col key={index} lg={3} md={6}>
-              <div 
-                className="group relative p-6 bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-slide-up"
+              <div
+                className="group relative p-6 bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-slide-up aurora-hover"
                 style={{animationDelay: `${0.3 + index * 0.1}s`}}
               >
                 {/* Glow Effect */}

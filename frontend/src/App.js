@@ -6,14 +6,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./api/auth";
-import { AdminRoutes, CommonRoutes, UserRoutes } from "./routes";
+import { AdminRoutes, CommonRoutes, UserRoutes, DashboardRoutes } from "./routes";
+import { useLocation } from "react-router-dom";
 
 import Navbar from "./components/nav/Navbar"
 
 const { Header, Footer } = lazily(() => import("./components"));
 
-const App = () => {
+const AppContent = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
 
   // to check firebase auth state
 
@@ -56,11 +59,25 @@ const App = () => {
   }, [dispatch]);
 
   return (
+    <>
+      <ToastContainer />
+      {!isDashboard && <Navbar />}
+      <CommonRoutes />
+      <AdminRoutes />
+      <UserRoutes />
+      <DashboardRoutes />
+      {!isDashboard && <Footer />}
+    </>
+  );
+};
+
+const App = () => {
+  return (
     <Suspense fallback={
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: '100vh',
         fontSize: '18px',
         color: '#666'
@@ -68,13 +85,7 @@ const App = () => {
         Loading...
       </div>
     }>
-      {/* <Header /> */}
-      <Navbar/>
-      <ToastContainer />
-      <CommonRoutes />
-      <AdminRoutes />
-      <UserRoutes />
-      <Footer />
+      <AppContent />
     </Suspense>
   );
 };

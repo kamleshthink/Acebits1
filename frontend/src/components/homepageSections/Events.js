@@ -166,17 +166,17 @@ const Events = () => {
           <Row className="g-6">
             {upcomingEvents.map((event, index) => (
               <Col key={event.id} lg={4} md={6}>
-                <div 
-                  className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl animate-slide-up overflow-hidden"
+                <div
+                  className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl animate-slide-up overflow-hidden particle-hover"
                   style={{animationDelay: `${1.0 + index * 0.1}s`}}
                 >
                   {/* Event Image - If Available */}
                   {event.image && (
-                    <div className="mb-4 -mx-6 -mt-6">
-                      <img 
-                        src={event.image} 
+                    <div className="mb-4 rounded-xl overflow-hidden">
+                      <img
+                        src={event.image}
                         alt={event.title}
-                        className="w-full h-48 object-cover rounded-t-3xl"
+                        className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                   )}
@@ -247,8 +247,8 @@ const Events = () => {
           <Row className="g-6">
             {pastEvents.map((event, index) => (
               <Col key={event.id} lg={4} md={6}>
-                <div 
-                  className="bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 animate-slide-up"
+                <div
+                  className="bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 animate-slide-up glow-wave-hover"
                   style={{animationDelay: `${1.4 + index * 0.1}s`}}
                 >
                   <div className="flex items-center justify-between mb-4">
