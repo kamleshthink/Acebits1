@@ -9,6 +9,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -20,6 +21,7 @@
     opacity: 0;
     transform: translateX(50px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -31,6 +33,7 @@
     opacity: 0;
     transform: translateX(-50px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -41,6 +44,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -51,6 +55,7 @@
     opacity: 0;
     transform: scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -62,13 +67,16 @@
     opacity: 0;
     transform: scale(0.3);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.05);
   }
+
   70% {
     transform: scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -80,6 +88,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -118,6 +127,12 @@
   overflow: hidden;
 }
 
+/* Force LTR direction for scrollbar on right side */
+body,
+html {
+  direction: ltr !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -137,7 +152,11 @@
 }
 
 /* Smooth transitions - only for specific elements, not all */
-a, button, input, select, textarea {
+a,
+button,
+input,
+select,
+textarea {
   transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -183,8 +202,13 @@ a, button, input, select, textarea {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Pulse animation */
@@ -203,6 +227,7 @@ a, button, input, select, textarea {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
@@ -258,7 +283,7 @@ a, button, input, select, textarea {
 
 
 
-.slick-slide > div {
+.slick-slide>div {
   margin: 0 10px;
 }
 
@@ -277,32 +302,39 @@ h6 {
 .section_padding {
   padding: 5em 0;
 }
+
 @media (min-width: 992px) {
   .width-large-70 {
     width: 75% !important;
   }
 }
+
 .banner-head {
   font-size: 60px;
   font-weight: 300;
   margin-bottom: 25px;
 }
+
 .hero-banner h2 {
   font-size: 68px;
 }
+
 p {
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.1px;
   color: #5f6368;
+
   @media (min-width:200px) and (max-width:400px) {
     font-size: 10px;
   }
 }
+
 .head-color {
   color: #0d6efd;
   font-weight: 600;
 }
+
 .btn-animation {
   box-shadow: 0 4px 11px rgb(55 125 255 / 35%);
 }
@@ -316,17 +348,21 @@ footer {
   background: #1b51a0;
   color: #fff !important;
 }
+
 footer p {
   color: #fff !important;
 }
+
 footer a {
   text-decoration: none !important;
   color: #fff;
 }
+
 footer .social-links {
   display: flex;
   padding: 0;
 }
+
 footer .social-links li a {
   height: 35px;
   width: 35px;
@@ -337,32 +373,40 @@ footer .social-links li a {
   align-items: center;
   color: #0d6efd;
 }
+
 @media (max-width: 768px) {
-   .banner-head {
+  .banner-head {
     font-size: 1.4rem !important;
   }
+
   .hero-banner h2 {
     font-size: 1.5rem !important;
   }
+
   .hero-banner .hero-banner .btn {
     margin-bottom: 10px;
   }
+
   .pricing-btn {
     display: block;
     text-align: center;
   }
 }
+
 .text-link-with-arrow {
   font-size: 18px;
   font-weight: 600;
   transition: 0.5s all ease-in-out;
 }
+
 .text-link-with-arrow:hover .arrow {
   margin-left: 8px;
 }
+
 .text-link-with-arrow .text {
   margin-right: 20px;
 }
+
 .get-started-bar {
   font-size: 20px;
 }
@@ -409,8 +453,15 @@ footer .social-links li a {
 }
 
 @keyframes gridPulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 /* Floating civil engineering elements */
@@ -431,9 +482,17 @@ footer .social-links li a {
 }
 
 @keyframes floatElements {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(-15px, -25px); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-15px, -25px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* ===== NAVIGATION ===== */
@@ -456,7 +515,8 @@ footer .social-links li a {
   background: rgba(59, 130, 246, 0.1) !important;
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO SECTION - EXCLUDED FROM DARK MODE ===== */
+/* 
 .dark .hero-banner {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
 }
@@ -481,9 +541,15 @@ footer .social-links li a {
 .dark .content p {
   color: #e2e8f0 !important;
 }
+*/
 
 /* ===== ALL TEXT ELEMENTS ===== */
-.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
   color: #f8fafc !important;
 }
 
@@ -567,8 +633,12 @@ footer .social-links li a {
   box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2) !important;
 }
 
-.dark .card h1, .dark .card h2, .dark .card h3,
-.dark .card h4, .dark .card h5, .dark .card h6 {
+.dark .card h1,
+.dark .card h2,
+.dark .card h3,
+.dark .card h4,
+.dark .card h5,
+.dark .card h6 {
   color: #f8fafc !important;
 }
 
@@ -691,6 +761,48 @@ footer .social-links li a {
   background: #64748b;
 }
 
+/* ===== FOOTER DARK MODE FIXES ===== */
+/* Ultra-specific selectors to remove ALL shadows from footer links */
+.dark footer,
+.dark footer *,
+.dark footer a,
+.dark footer a *,
+.dark footer .group,
+.dark footer .group *,
+.dark footer nav,
+.dark footer nav *,
+.dark footer nav a,
+.dark footer nav a *,
+.dark footer .space-y-3 a,
+.dark footer .space-y-3 a *,
+.dark footer .flex.items-center,
+.dark footer .flex.items-center * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+
+/* Ensure footer link backgrounds are transparent */
+.dark footer nav a,
+.dark footer .space-y-3 a,
+.dark footer .group {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Ensure footer text colors are correct */
+.dark footer .text-gray-300,
+.dark footer a.text-gray-300,
+.dark footer .group.text-gray-300 {
+  color: #d1d5db !important;
+}
+
+.dark footer .hover\:text-white:hover,
+.dark footer a.hover\:text-white:hover {
+  color: #ffffff !important;
+}
+
 /* ===== MODALS ===== */
 .dark .modal-overlay {
   background: rgba(0, 0, 0, 0.8) !important;
@@ -710,6 +822,40 @@ footer .social-links li a {
 /* ===== IMAGES & FIGURES ===== */
 .dark img {
   opacity: 0.95;
+}
+
+/* ===== EVENT SECTION IMAGES - ENHANCED VISIBILITY ===== */
+/* Target all event images - multiple selectors for comprehensive coverage */
+.dark .event-card img,
+.dark .upcoming-events img,
+.dark .past-events img,
+.dark [class*="event"] img,
+.dark section img,
+.dark .bg-white img,
+.dark .rounded-xl img,
+.dark .rounded-2xl img,
+.dark .rounded-3xl img {
+  opacity: 1 !important;
+  filter: brightness(1.1) contrast(1.1) saturate(1.1) !important;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Specific targeting for event page and homepage event sections */
+.dark .bg-gradient-to-br img,
+.dark .from-slate-900 img,
+.dark .via-blue-900 img,
+.dark .to-indigo-900 img {
+  opacity: 1 !important;
+  filter: brightness(1.15) contrast(1.15) !important;
+}
+
+/* Override any parent opacity/filter that might affect images */
+.dark .bg-white\/10 img,
+.dark .bg-white\/5 img,
+.dark .backdrop-blur-sm img {
+  opacity: 1 !important;
+  filter: brightness(1.2) contrast(1.2) !important;
 }
 
 .dark figure {
@@ -739,7 +885,7 @@ footer .social-links li a {
   color: #94a3b8 !important;
 }
 
-.dark #stats-section > div > div {
+.dark #stats-section>div>div {
   background: linear-gradient(to bottom right, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.8)) !important;
   border-color: rgba(148, 163, 184, 0.3) !important;
 }
@@ -901,26 +1047,63 @@ body {
 }
 
 @keyframes floatBridge {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(10px, -15px) rotate(2deg); }
-  50% { transform: translate(5px, -25px) rotate(-1deg); }
-  75% { transform: translate(-5px, -10px) rotate(1deg); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(10px, -15px) rotate(2deg);
+  }
+
+  50% {
+    transform: translate(5px, -25px) rotate(-1deg);
+  }
+
+  75% {
+    transform: translate(-5px, -10px) rotate(1deg);
+  }
 }
 
 @keyframes floatBuilding {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-10px, -20px) scale(1.05); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(-10px, -20px) scale(1.05);
+  }
 }
 
 @keyframes floatCrane {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(15px, -10px) rotate(-3deg); }
-  66% { transform: translate(-10px, -15px) rotate(3deg); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  33% {
+    transform: translate(15px, -10px) rotate(-3deg);
+  }
+
+  66% {
+    transform: translate(-10px, -15px) rotate(3deg);
+  }
 }
 
 @keyframes floatDam {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(10px, -15px); }
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(10px, -15px);
+  }
 }
 
 /* Bridge cable animation */
@@ -929,8 +1112,15 @@ body {
 }
 
 @keyframes bridgeSway {
-  0%, 100% { d: path("M10 80 Q50 20 100 80 Q150 20 190 80"); }
-  50% { d: path("M10 80 Q50 30 100 70 Q150 30 190 80"); }
+
+  0%,
+  100% {
+    d: path("M10 80 Q50 20 100 80 Q150 20 190 80");
+  }
+
+  50% {
+    d: path("M10 80 Q50 30 100 70 Q150 30 190 80");
+  }
 }
 
 /* Crane load animation */
@@ -940,8 +1130,15 @@ body {
 }
 
 @keyframes craneLoad {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(15px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(15px);
+  }
 }
 
 /* Water wave animation */
@@ -950,8 +1147,15 @@ body {
 }
 
 @keyframes waterWave {
-  0%, 100% { d: path("M0 95 Q50 85 100 95 Q150 105 200 95"); }
-  50% { d: path("M0 95 Q50 105 100 95 Q150 85 200 95"); }
+
+  0%,
+  100% {
+    d: path("M0 95 Q50 85 100 95 Q150 105 200 95");
+  }
+
+  50% {
+    d: path("M0 95 Q50 105 100 95 Q150 85 200 95");
+  }
 }
 
 /* ========================================
@@ -1001,10 +1205,12 @@ body {
     opacity: 0;
     box-shadow: 0 0 10px #60a5fa, 0 0 20px #3b82f6, 0 0 30px #2563eb;
   }
+
   50% {
     opacity: 1;
     box-shadow: 0 0 20px #60a5fa, 0 0 40px #3b82f6, 0 0 60px #2563eb;
   }
+
   100% {
     top: 100%;
     opacity: 0;
@@ -1012,9 +1218,17 @@ body {
 }
 
 @keyframes lightningFlash {
-  0% { opacity: 0; }
-  20% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Northern Lights (Aurora) Effect */
@@ -1030,16 +1244,14 @@ body {
   left: -100%;
   width: 300%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(34, 211, 238, 0.2),
-    rgba(139, 92, 246, 0.3),
-    rgba(34, 197, 94, 0.2),
-    rgba(59, 130, 246, 0.3),
-    rgba(236, 72, 153, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(34, 211, 238, 0.2),
+      rgba(139, 92, 246, 0.3),
+      rgba(34, 197, 94, 0.2),
+      rgba(59, 130, 246, 0.3),
+      rgba(236, 72, 153, 0.2),
+      transparent);
   opacity: 0;
   z-index: 10;
   transform: skewX(-20deg);
@@ -1051,23 +1263,26 @@ body {
 }
 
 @keyframes auroraWave {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }
 
 .aurora-hover::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(34, 211, 238, 0.1) 20%,
-    rgba(139, 92, 246, 0.15) 40%,
-    rgba(34, 197, 94, 0.1) 60%,
-    rgba(59, 130, 246, 0.1) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(34, 211, 238, 0.1) 20%,
+      rgba(139, 92, 246, 0.15) 40%,
+      rgba(34, 197, 94, 0.1) 60%,
+      rgba(59, 130, 246, 0.1) 80%,
+      transparent 100%);
   opacity: 0;
   z-index: 5;
 }
@@ -1077,8 +1292,17 @@ body {
 }
 
 @keyframes auroraGlow {
-  0%, 100% { opacity: 0.3; transform: translateY(0); }
-  50% { opacity: 0.6; transform: translateY(-10px); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: translateY(-10px);
+  }
 }
 
 /* Particle Explosion Effect */
@@ -1092,9 +1316,17 @@ body {
 }
 
 @keyframes particlePulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .particle-hover::before,
@@ -1128,6 +1360,7 @@ body {
     transform: scale(0);
     opacity: 1;
   }
+
   100% {
     transform: scale(3);
     opacity: 0;
@@ -1158,9 +1391,17 @@ body {
 }
 
 @keyframes glowRotate {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .glow-wave-hover::after {
@@ -1170,12 +1411,10 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
   opacity: 0;
 }
 
@@ -1185,8 +1424,13 @@ body {
 }
 
 @keyframes waveShine {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }
 
 /* Combined Section Hover Effect */
@@ -1216,12 +1460,15 @@ section,
 }
 
 @keyframes electricPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow:
       0 0 5px #3b82f6,
       0 0 10px #3b82f6,
       0 0 15px #3b82f6;
   }
+
   50% {
     box-shadow:
       0 0 10px #60a5fa,
@@ -1245,7 +1492,7 @@ section,
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
   opacity: 0;
   pointer-events: none;
 }
@@ -1259,6 +1506,7 @@ section,
     transform: translate(-50%, -50%) scale(0);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(4);
     opacity: 0;
@@ -1285,7 +1533,13 @@ section,
 }
 
 @keyframes neonPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
-}
 
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}

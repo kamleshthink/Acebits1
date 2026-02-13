@@ -2,38 +2,53 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
     Home, FileText, BookOpen, Monitor, Calendar, MessageSquare,
-    Briefcase, User, Menu, X, Bell, Search, ChevronDown,
-    GraduationCap, Settings, LogOut, Award, Users, TrendingUp, LogIn, Eye, EyeOff
+    Briefcase, User, Menu, X, Bell, Search, ChevronDown, ChevronLeft,
+    GraduationCap, Settings, LogOut, Award, Users
 } from 'lucide-react';
 import './DashboardLayout.css';
 
 const DashboardLayout = ({ children }) => {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768);
     const [searchQuery, setSearchQuery] = useState('');
     const [notificationOpen, setNotificationOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
-    const [loginOpen, setLoginOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const [loginData, setLoginData] = useState({ email: '', password: '' });
     const [userName, setUserName] = useState('');
     const location = useLocation();
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        // Simple login - just store the email as name
-        if (loginData.email && loginData.password) {
-            setUserName(loginData.email.split('@')[0]);
-            setIsLoggedIn(true);
-            setLoginOpen(false);
-            setLoginData({ email: '', password: '' });
+    // Check login state on mount
+    React.useEffect(() => {
+        const storedUser = localStorage.getItem('aceUser');
+        if (storedUser) {
+            try {
+                const user = JSON.parse(storedUser);
+                setIsLoggedIn(true);
+                setUserName(user.name || user.email.split('@')[0]);
+            } catch (e) {
+                console.error("Invalid user data");
+                localStorage.removeItem('aceUser');
+            }
         }
-    };
+
+        // Handle mobile sidebar on resize
+        const handleResize = () => {
+            if (window.innerWidth <= 768) {
+                setSidebarOpen(false);
+            } else {
+                setSidebarOpen(true);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleLogout = () => {
+        localStorage.removeItem('aceUser');
         setIsLoggedIn(false);
         setUserName('');
         setProfileOpen(false);
+        window.location.href = '/';
     };
 
     const menuItems = [
@@ -128,6 +143,14 @@ const DashboardLayout = ({ children }) => {
 
     return (
         <div className="dashboard-container">
+            {/* Mobile Sidebar Overlay */}
+            {window.innerWidth <= 768 && sidebarOpen && (
+                <div
+                    className="sidebar-overlay visible"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
             {/* Sidebar */}
             <aside className={`dashboard-sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
                 <div className="sidebar-header">
@@ -139,7 +162,12 @@ const DashboardLayout = ({ children }) => {
                         className="sidebar-toggle"
                         onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
-                        {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+                        {/* Desktop: ChevronLeft to collapse. Mobile: X to close */}
+                        {window.innerWidth > 768 ? (
+                            sidebarOpen ? <ChevronLeft size={20} /> : <Menu size={20} />
+                        ) : (
+                            <X size={20} />
+                        )}
                     </button>
                 </div>
 
@@ -259,101 +287,44 @@ const DashboardLayout = ({ children }) => {
                             )}
                         </div>
 
-                        {/* Login/Profile */}
-                        {!isLoggedIn ? (
+                        {/* Profile Dropdown */}
+                        <div className="header-dropdown">
                             <button
-                                className="login-btn"
-                                onClick={() => setLoginOpen(true)}
+                                className="header-btn profile-btn"
+                                onClick={() => {
+                                    console.log('Profile button clicked', !profileOpen);
+                                    setProfileOpen(!profileOpen);
+                                }}
                             >
-                                <LogIn size={18} />
-                                <span>Login</span>
-                            </button>
-                        ) : (
-                            <div className="header-dropdown">
-                                <button
-                                    className="header-btn profile-btn"
-                                    onClick={() => setProfileOpen(!profileOpen)}
-                                >
-                                    <div className="profile-avatar">
-                                        {userName.charAt(0).toUpperCase()}
-                                    </div>
-                                    <span className="profile-name">{userName}</span>
-                                    <ChevronDown size={16} />
-                                </button>
-                                {profileOpen && (
-                                    <div className="dropdown-menu profile-menu">
-                                        <Link to="/dashboard/profile" className="dropdown-item">
-                                            <User size={16} />
-                                            My Profile
-                                        </Link>
-                                        <Link to="/dashboard/settings" className="dropdown-item">
-                                            <Settings size={16} />
-                                            Settings
-                                        </Link>
-                                        <hr />
-                                        <button className="dropdown-item logout" onClick={handleLogout}>
-                                            <LogOut size={16} />
-                                            Logout
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </header>
-
-                {/* Login Modal */}
-                {loginOpen && (
-                    <div className="login-modal-overlay" onClick={() => setLoginOpen(false)}>
-                        <div className="login-modal" onClick={(e) => e.stopPropagation()}>
-                            <button className="modal-close" onClick={() => setLoginOpen(false)}>
-                                <X size={20} />
-                            </button>
-                            <div className="login-header">
-                                <GraduationCap size={32} className="login-logo" />
-                                <h2>Login to ACE BITS</h2>
-                            </div>
-                            <form onSubmit={handleLogin} className="login-form">
-                                <div className="form-group">
-                                    <label>Email</label>
-                                    <input
-                                        type="email"
-                                        placeholder="Enter your email"
-                                        value={loginData.email}
-                                        onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                                        required
-                                    />
+                                <div className="profile-avatar">
+                                    {userName ? userName.charAt(0).toUpperCase() : 'U'}
                                 </div>
-                                <div className="form-group">
-                                    <label>Password</label>
-                                    <div className="password-input">
-                                        <input
-                                            type={showPassword ? 'text' : 'password'}
-                                            placeholder="Enter password"
-                                            value={loginData.password}
-                                            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                                            required
-                                        />
-                                        <button
-                                            type="button"
-                                            className="toggle-password"
-                                            onClick={() => setShowPassword(!showPassword)}
-                                        >
-                                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                                        </button>
+                                <span className="profile-name">{userName || 'User'}</span>
+                                <ChevronDown size={16} />
+                            </button>
+                            {profileOpen && (
+                                <div className="dropdown-menu profile-menu">
+                                    <div className="px-4 py-2 border-b border-gray-100 md:hidden">
+                                        <p className="text-sm font-semibold text-gray-800">{userName}</p>
                                     </div>
+                                    <Link to="/dashboard/profile" className="dropdown-item">
+                                        <User size={16} />
+                                        My Profile
+                                    </Link>
+                                    <Link to="/dashboard/settings" className="dropdown-item">
+                                        <Settings size={16} />
+                                        Settings
+                                    </Link>
+                                    <hr />
+                                    <button className="dropdown-item logout" onClick={handleLogout}>
+                                        <LogOut size={16} />
+                                        Logout
+                                    </button>
                                 </div>
-                                <button type="submit" className="submit-btn">
-                                    <LogIn size={18} />
-                                    Login
-                                </button>
-                            </form>
-                            <p className="login-footer">
-                                Don't have an account? <Link to="/register" onClick={() => setLoginOpen(false)}>Register</Link>
-                            </p>
+                            )}
                         </div>
                     </div>
-                )}
+                </header>
 
                 {/* Page Content */}
                 <main className="dashboard-content">

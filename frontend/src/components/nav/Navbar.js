@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Menu, X, ChevronDown, Home, Info, Users, Calendar, Image, Award, Settings, LogIn, Eye, EyeOff, GraduationCap, Moon, Sun, UserPlus } from "lucide-react";
+import { motion } from "framer-motion";
+import { Menu, X, ChevronDown, Home, Info, Users, Calendar, Image, Award, Settings, LogIn, Eye, EyeOff, GraduationCap, UserPlus, Moon, Sun } from "lucide-react";
 import logo from "../../assets/images/logo.png";
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
@@ -13,6 +14,7 @@ const Navbar = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [authTab, setAuthTab] = useState('login');
   const [darkMode, setDarkMode] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -42,7 +44,6 @@ const Navbar = () => {
 
   const years = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
 
-  // Check for saved user and dark mode on mount
   useEffect(() => {
     const savedUser = localStorage.getItem('aceUser');
     if (savedUser) {
@@ -51,13 +52,25 @@ const Navbar = () => {
       setUserName(user.name);
     }
 
-    // Restore dark mode preference
+
+    // Check local storage for dark mode preference
     const savedDarkMode = localStorage.getItem('aceDarkMode') === 'true';
     if (savedDarkMode) {
       setDarkMode(true);
       document.documentElement.classList.add('dark');
     }
   }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('aceDarkMode', newDarkMode.toString());
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -134,23 +147,17 @@ const Navbar = () => {
     setUserName('');
   };
 
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    document.documentElement.classList.toggle('dark');
-    localStorage.setItem('aceDarkMode', newDarkMode.toString());
-  };
+
 
   useEffect(() => {
     const handleScroll = () => {
-      // Get hero section height (approximately 100vh)
       const heroHeight = window.innerHeight;
-      const scrollThreshold = heroHeight * 0.8; // 80% of hero height for better transition
-      
+      const scrollThreshold = heroHeight * 0.8;
+
       if (window.scrollY > scrollThreshold) {
-        setScrolled(true); // White with light blue when scrolled down
+        setScrolled(true);
       } else {
-        setScrolled(false); // White with light blue sky on hero section
+        setScrolled(false);
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -165,8 +172,8 @@ const Navbar = () => {
     { name: "Faculty", href: "/faculty", icon: Users },
     { name: "Events", href: "/events", icon: Calendar },
     { name: "Gallery", href: "/gallery", icon: Image },
-    { 
-      name: "Team", 
+    {
+      name: "Team",
       href: "#",
       icon: Award,
       dropdown: [
@@ -192,162 +199,168 @@ const Navbar = () => {
 
   return (
     <>
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 backdrop-blur-xl shadow-2xl border-b ${
-        scrolled
+      <nav
+        className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-500 backdrop-blur-xl shadow-2xl border-b ${scrolled
           ? 'bg-gradient-to-r from-blue-50/95 via-white/95 to-blue-50/95 border-blue-200/50'
           : 'bg-gradient-to-r from-sky-100/95 via-white/95 to-sky-100/95 border-sky-200/50'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 sm:h-18 lg:h-20">
-          {/* Logo */}
-          <div 
-            className="flex items-center space-x-2 sm:space-x-3 hover:scale-105 transition-transform duration-300 group"
-          >
-            <div className="relative">
-              <img
-                src={logo}
-                alt="ACE Logo"
-                className="h-12 w-12 sm:h-16 sm:w-16 lg:h-20 lg:w-20 object-contain group-hover:rotate-12 transition-transform duration-300"
-              />
-            </div>
-            <div>
-              <span className="text-lg sm:text-xl lg:text-3xl font-bold font-heading text-gray-800">
-                ACE BITS
-              </span>
-              <div className="text-xs sm:text-sm lg:text-sm font-medium text-blue-600">
-                Association of Civil Engineers
+          }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 sm:h-18 lg:h-20">
+            {/* Logo Section - Fixed Layout */}
+            <div
+              className="flex items-center space-x-2 sm:space-x-3 hover:scale-105 transition-transform duration-300 group min-w-max"
+            >
+              <div className="relative">
+                <img
+                  src={logo}
+                  alt="ACE Logo"
+                  className="h-10 w-10 sm:h-14 sm:w-14 lg:h-16 lg:w-16 object-contain group-hover:rotate-12 transition-transform duration-300"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg sm:text-xl lg:text-2xl font-bold font-heading text-gray-800 whitespace-nowrap">
+                  ACE BITS
+                </span>
+                <div className="text-[10px] sm:text-xs lg:text-sm font-medium text-blue-600 whitespace-nowrap">
+                  Association of Civil Engineers
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item, index) => (
-              <NavItem key={index} item={item} scrolled={scrolled} isRightAligned={index >= navItems.length - 2} />
-            ))}
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {navItems.map((item, index) => (
+                <NavItem key={index} item={item} scrolled={scrolled} isRightAligned={index >= navItems.length - 2} />
+              ))}
 
-            {/* Dark Mode Toggle - Icon Only */}
-            <button
-              onClick={toggleDarkMode}
-              className="p-1.5 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 transition-colors"
-              title={darkMode ? 'Light Mode' : 'Dark Mode'}
-            >
-              {darkMode ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-
-            {/* Login/Profile - Icon Only */}
-            {!isLoggedIn ? (
+              {/* Enhanced Dark Mode Toggle */}
               <button
-                onClick={() => setLoginOpen(true)}
-                className="p-1.5 rounded-full text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                title="Login / Sign Up"
+                onClick={toggleDarkMode}
+                className="ml-4 relative w-16 h-8 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center transition-colors duration-300 focus:outline-none shadow-inner"
+                title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               >
-                <LogIn size={16} />
+                <motion.div
+                  className="absolute left-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center z-10"
+                  animate={{ x: darkMode ? 32 : 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                >
+                  {darkMode ? (
+                    <Moon size={14} className="text-blue-600" />
+                  ) : (
+                    <Sun size={14} className="text-orange-500" />
+                  )}
+                </motion.div>
+                <div className="flex justify-between w-full px-2">
+                  <span className="opacity-0">.</span>
+                  <span className="opacity-0">.</span>
+                </div>
               </button>
-            ) : (
-              <div className="flex items-center">
+
+              {!isLoggedIn ? (
+                <button
+                  onClick={() => setLoginOpen(true)}
+                  className="p-1.5 rounded-full text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                  title="Login / Sign Up"
+                >
+                  <LogIn size={16} />
+                </button>
+              ) : (
+                <div className="flex items-center">
+                  <Link
+                    to="/dashboard"
+                    className="p-1.5 rounded-full text-blue-600 hover:bg-blue-50 transition-colors"
+                    title="Dashboard"
+                  >
+                    <GraduationCap size={16} />
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="p-1 text-gray-400 hover:text-red-500 transition-colors"
+                    title="Logout"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="lg:hidden flex items-center space-x-1">
+
+
+              {/* Mobile Dark Mode Toggle */}
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors mr-1"
+              >
+                {darkMode ? <Moon size={18} className="text-blue-500" /> : <Sun size={18} className="text-orange-500" />}
+              </button>
+
+              {!isLoggedIn ? (
+                <button
+                  onClick={() => setLoginOpen(true)}
+                  className="p-1.5 rounded-full text-gray-500 hover:text-blue-600 transition-colors"
+                  title="Login"
+                >
+                  <LogIn size={16} />
+                </button>
+              ) : (
                 <Link
                   to="/dashboard"
-                  className="p-1.5 rounded-full text-blue-600 hover:bg-blue-50 transition-colors"
+                  className="p-1.5 rounded-full text-blue-600 transition-colors"
                   title="Dashboard"
                 >
                   <GraduationCap size={16} />
                 </Link>
-                <button
-                  onClick={handleLogout}
-                  className="p-1 text-gray-400 hover:text-red-500 transition-colors"
-                  title="Logout"
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            )}
-          </div>
+              )}
 
-          {/* Mobile Icons + Menu Button */}
-          <div className="lg:hidden flex items-center space-x-1">
-            {/* Dark Mode - Mobile */}
-            <button
-              onClick={toggleDarkMode}
-              className="p-1.5 rounded-full text-gray-500 hover:text-gray-700 transition-colors"
-              title={darkMode ? 'Light Mode' : 'Dark Mode'}
-            >
-              {darkMode ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-
-            {/* Login - Mobile */}
-            {!isLoggedIn ? (
               <button
-                onClick={() => setLoginOpen(true)}
-                className="p-1.5 rounded-full text-gray-500 hover:text-blue-600 transition-colors"
-                title="Login"
+                onClick={toggleNavbar}
+                className="p-2 rounded-xl text-gray-800 hover:bg-gray-200/50 transition-colors"
               >
-                <LogIn size={16} />
+                {isOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
-            ) : (
-              <Link
-                to="/dashboard"
-                className="p-1.5 rounded-full text-blue-600 transition-colors"
-                title="Dashboard"
-              >
-                <GraduationCap size={16} />
-              </Link>
-            )}
-
-            {/* Hamburger Menu */}
-            <button
-              onClick={toggleNavbar}
-              className="p-2 rounded-xl text-gray-800 hover:bg-gray-200/50 transition-colors"
-            >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <div
-          className={`lg:hidden backdrop-blur-xl border-t animate-slide-down z-50 ${
-            scrolled 
-              ? 'bg-gradient-to-b from-blue-50/95 via-white/95 to-blue-50/95 border-blue-200/50' 
+        {isOpen && (
+          <div
+            className={`lg:hidden backdrop-blur-xl border-t animate-slide-down z-50 ${scrolled
+              ? 'bg-gradient-to-b from-blue-50/95 via-white/95 to-blue-50/95 border-blue-200/50'
               : 'bg-gradient-to-b from-sky-100/95 via-white/95 to-sky-100/95 border-sky-200/50'
-          }`}
-        >
-          <div className="px-3 sm:px-4 py-4 sm:py-6 space-y-1 sm:space-y-2 max-h-[75vh] overflow-y-auto">
-            {navItems.map((item, index) => (
-              <MobileNavItem key={index} item={item} onClose={() => setIsOpen(false)} scrolled={scrolled} />
-            ))}
+              }`}
+          >
+            <div className="px-3 sm:px-4 py-4 sm:py-6 space-y-1 sm:space-y-2 max-h-[75vh] overflow-y-auto">
+              {navItems.map((item, index) => (
+                <MobileNavItem key={index} item={item} onClose={() => setIsOpen(false)} scrolled={scrolled} />
+              ))}
 
-            {/* Logged in user options */}
-            {isLoggedIn && (
-              <div className="mt-4 pt-4 border-t border-gray-200/50 space-y-2">
-                <Link
-                  to="/dashboard"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center space-x-2 px-4 py-2.5 text-blue-600 hover:bg-blue-50 rounded-xl text-sm font-medium"
-                >
-                  <GraduationCap size={16} />
-                  <span>Dashboard</span>
-                </Link>
-                <button
-                  onClick={() => { handleLogout(); setIsOpen(false); }}
-                  className="flex items-center space-x-2 w-full px-4 py-2 text-red-500 text-sm hover:bg-red-50 rounded-xl"
-                >
-                  <X size={16} />
-                  <span>Logout</span>
-                </button>
-              </div>
-            )}
+              {isLoggedIn && (
+                <div className="mt-4 pt-4 border-t border-gray-200/50 space-y-2">
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center space-x-2 px-4 py-2.5 text-blue-600 hover:bg-blue-50 rounded-xl text-sm font-medium"
+                  >
+                    <GraduationCap size={16} />
+                    <span>Dashboard</span>
+                  </Link>
+                  <button
+                    onClick={() => { handleLogout(); setIsOpen(false); }}
+                    className="flex items-center space-x-2 w-full px-4 py-2 text-red-500 text-sm hover:bg-red-50 rounded-xl"
+                  >
+                    <X size={16} />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-    </nav>
+      </nav>
 
-      {/* Login/Signup Modal - OUTSIDE NAV for proper z-index */}
       {loginOpen && (
         <div
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-md"
@@ -365,26 +378,23 @@ const Navbar = () => {
               <X size={20} />
             </button>
 
-            {/* Tabs */}
             <div className="flex border-b border-gray-200">
               <button
                 onClick={() => setAuthTab('login')}
-                className={`flex-1 py-4 text-sm font-medium transition-colors ${
-                  authTab === 'login'
-                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+                className={`flex-1 py-4 text-sm font-medium transition-colors ${authTab === 'login'
+                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
               >
                 <LogIn size={16} className="inline mr-2" />
                 Login
               </button>
               <button
                 onClick={() => setAuthTab('signup')}
-                className={`flex-1 py-4 text-sm font-medium transition-colors ${
-                  authTab === 'signup'
-                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+                className={`flex-1 py-4 text-sm font-medium transition-colors ${authTab === 'signup'
+                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
               >
                 <UserPlus size={16} className="inline mr-2" />
                 Sign Up
@@ -392,14 +402,12 @@ const Navbar = () => {
             </div>
 
             <div className="p-6">
-              {/* Error Message */}
               {error && (
                 <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">
                   {error}
                 </div>
               )}
 
-              {/* Login Form */}
               {authTab === 'login' && (
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="text-center mb-4">
@@ -450,7 +458,6 @@ const Navbar = () => {
                 </form>
               )}
 
-              {/* Signup Form */}
               {authTab === 'signup' && (
                 <form onSubmit={handleSignup} className="space-y-3">
                   <div className="text-center mb-3">
@@ -572,33 +579,37 @@ const Navbar = () => {
 const NavItem = ({ item, scrolled, isRightAligned }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // Added padding bridge to keep hover active when moving from button to dropdown
+  const dropdownBridge = (
+    <div className="absolute top-full left-0 w-full h-4 bg-transparent z-[90]"></div>
+  );
+
   if (item.dropdown) {
     return (
       <div
-        className="relative"
+        className="relative group h-full flex items-center"
         onMouseEnter={() => setIsDropdownOpen(true)}
         onMouseLeave={() => setIsDropdownOpen(false)}
       >
         <button
-          className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-colors duration-200 ${
-            scrolled
-              ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
-              : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
-          }`}
+          className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-colors duration-200 ${scrolled
+            ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
+            : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
+            }`}
         >
           <item.icon size={20} className="drop-shadow-lg" />
           <span className="drop-shadow-sm whitespace-nowrap">{item.name}</span>
           <ChevronDown size={16} className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
         </button>
 
-        {isDropdownOpen && (
-          <div
-            className={`absolute top-full ${isRightAligned ? 'right-0' : 'left-0'} mt-1 w-56 backdrop-blur-xl rounded-2xl shadow-2xl border py-3 z-[100] ${
-              scrolled
-                ? 'bg-white/95 border-gray-200'
-                : 'bg-white/95 border-gray-200'
-            }`}
-          >
+        {/* Bridge to fix hover gap issue */}
+        {dropdownBridge}
+
+        <div
+          className={`absolute top-[90%] ${isRightAligned ? 'right-0' : 'left-0'} pt-4 transition-all duration-300 transform origin-top ${isDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+            } z-[1000]`}
+        >
+          <div className="w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 py-3">
             {item.dropdown.map((dropdownItem, index) => (
               dropdownItem.href && dropdownItem.href.startsWith('http') ? (
                 <a
@@ -621,7 +632,7 @@ const NavItem = ({ item, scrolled, isRightAligned }) => {
               )
             ))}
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -630,9 +641,8 @@ const NavItem = ({ item, scrolled, isRightAligned }) => {
     item.href && item.href.startsWith('http') ? (
       <a
         href={item.href}
-        className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
-          scrolled ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
-        }`}
+        className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${scrolled ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
+          }`}
       >
         <item.icon size={20} className="drop-shadow-lg" />
         <span className="drop-shadow-sm">{item.name}</span>
@@ -640,9 +650,8 @@ const NavItem = ({ item, scrolled, isRightAligned }) => {
     ) : (
       <Link
         to={item.href}
-        className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
-          scrolled ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
-        }`}
+        className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${scrolled ? 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50' : 'text-gray-800 hover:text-blue-600 hover:bg-blue-100/50'
+          }`}
       >
         <item.icon size={20} className="drop-shadow-lg" />
         <span className="drop-shadow-sm">{item.name}</span>
@@ -665,12 +674,12 @@ const MobileNavItem = ({ item, onClose, scrolled }) => {
             <item.icon size={20} className="sm:w-6 sm:h-6 drop-shadow-lg" />
             <span className="text-sm sm:text-base font-medium drop-shadow-sm">{item.name}</span>
           </div>
-          <ChevronDown 
-            size={18} 
+          <ChevronDown
+            size={18}
             className={`sm:w-5 sm:h-5 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
           />
         </button>
-        
+
         {isDropdownOpen && (
           <div className="ml-6 sm:ml-8 mt-2 space-y-1 animate-slide-up bg-white/90 backdrop-blur-sm rounded-xl p-2 border border-gray-200/50 shadow-lg">
             {item.dropdown.map((dropdownItem, index) => (

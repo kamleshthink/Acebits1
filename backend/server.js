@@ -19,11 +19,21 @@ app.use(cors({
   credentials: true
 }));
 
+// Request Logger
+app.use((req, res, next) => {
+  console.log(`\n📨 ${req.method} ${req.url}`);
+  if (req.method === 'POST') {
+    console.log('Body:', req.body);
+  }
+  next();
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/resources', require('./routes/resourceRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
 
 // Health check route
@@ -62,11 +72,12 @@ app.use((req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('❌ Global Error Handler:', err);
   res.status(500).json({
     success: false,
     message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    error: err.message,
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
   });
 });
 

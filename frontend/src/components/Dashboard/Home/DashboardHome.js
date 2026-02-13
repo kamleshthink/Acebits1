@@ -1,72 +1,109 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     FileText, BookOpen, Monitor, MessageSquare, Users, Download,
-    TrendingUp, Clock, Star, Award, ArrowRight, Play, Eye
+    TrendingUp, Clock, Star, Award, ArrowRight, Play, Eye, UploadCloud, X
 } from 'lucide-react';
 import './DashboardHome.css';
 
 const DashboardHome = () => {
-    // Stats data
-    const stats = [
-        {
-            title: 'Total Papers',
-            value: '2,500+',
-            icon: FileText,
-            change: '+125 this month',
-            color: '#6366f1'
-        },
-        {
-            title: 'Study Notes',
-            value: '850+',
-            icon: BookOpen,
-            change: '+45 this week',
-            color: '#10b981'
-        },
-        {
-            title: 'Video Tutorials',
-            value: '320+',
-            icon: Monitor,
-            change: '+12 new',
-            color: '#f59e0b'
-        },
-        {
-            title: 'Active Members',
-            value: '2.5K',
-            icon: Users,
-            change: '+89 joined',
-            color: '#ec4899'
+    const [uploadModalOpen, setUploadModalOpen] = useState(false);
+    const [uploadFile, setUploadFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
+
+    const [stats, setStats] = useState([
+        { title: 'Total Papers', value: '0', icon: FileText, change: 'No recent activity', color: '#6366f1' },
+        { title: 'Study Notes', value: '0', icon: BookOpen, change: 'No recent activity', color: '#10b981' },
+        { title: 'Other Resources', value: '0', icon: Monitor, change: 'No new uploads', color: '#f59e0b' },
+        { title: 'Active Members', value: '0', icon: Users, change: 'Community growing', color: '#ec4899' }
+    ]);
+    const [recentPapers, setRecentPapers] = useState([]);
+
+    useEffect(() => {
+        const fetchResources = async () => {
+            try {
+                const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+                const res = await fetch(`${API_URL}/api/resources`);
+                const data = await res.json();
+
+                if (data.success) {
+                    const resources = data.data;
+                    const papersCount = resources.filter(r => r.fileType === 'pdf').length;
+                    const notesCount = resources.filter(r => r.fileType === 'doc').length;
+                    const othersCount = resources.length - papersCount - notesCount;
+
+                    setStats(prev => [
+                        { ...prev[0], value: papersCount.toString(), change: 'Updated just now' },
+                        { ...prev[1], value: notesCount.toString(), change: 'Updated just now' },
+                        { ...prev[2], value: othersCount.toString(), change: 'Updated just now' },
+                        prev[3]
+                    ]);
+
+                    // Update recent papers list
+                    const recent = resources.slice(0, 5).map(r => ({
+                        id: r._id,
+                        title: r.title,
+                        type: r.category,
+                        downloads: 0,
+                        date: new Date(r.createdAt).toLocaleDateString()
+                    }));
+                    setRecentPapers(recent);
+                }
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        };
+
+        fetchResources();
+    }, [uploading]); // Refetch when uploading finishes
+
+    // Popular Courses - Empty State (No backend for this yet)
+    const popularCourses = [];
+
+    // Recent Forum Questions - Empty State
+    const forumQuestions = [];
+
+    // Upcoming Events - Empty State
+    const upcomingEvents = [];
+
+    const handleFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setUploadFile(e.target.files[0]);
         }
-    ];
+    };
 
-    // Recent PYQ Papers
-    const recentPapers = [
-        { id: 1, title: 'GATE 2024 Civil Engineering', type: 'GATE', downloads: 1250, date: '2 days ago' },
-        { id: 2, title: 'ESE 2024 Prelims Paper', type: 'ESE', downloads: 890, date: '5 days ago' },
-        { id: 3, title: 'SSC JE 2024 Set A', type: 'SSC JE', downloads: 650, date: '1 week ago' },
-        { id: 4, title: 'BIT Sindri 5th Sem Structures', type: 'University', downloads: 420, date: '2 weeks ago' },
-    ];
+    const handleUpload = async () => {
+        if (!uploadFile) return;
+        setUploading(true);
 
-    // Popular Courses
-    const popularCourses = [
-        { id: 1, title: 'AutoCAD Civil 3D Complete', lessons: 42, duration: '12 hrs', rating: 4.8 },
-        { id: 2, title: 'STAAD Pro for Beginners', lessons: 35, duration: '10 hrs', rating: 4.7 },
-        { id: 3, title: 'Revit Architecture', lessons: 28, duration: '8 hrs', rating: 4.6 },
-    ];
+        const formData = new FormData();
+        formData.append('file', uploadFile);
+        formData.append('title', uploadFile.name);
+        formData.append('category', 'Other'); // You can add a category selector in the modal later
 
-    // Recent Forum Questions
-    const forumQuestions = [
-        { id: 1, title: 'How to design RCC beam for cantilever?', replies: 12, views: 234 },
-        { id: 2, title: 'Best book for GATE Geotechnical?', replies: 18, views: 567 },
-        { id: 3, title: 'STAAD Pro vs ETABS - which is better?', replies: 24, views: 891 },
-    ];
+        try {
+            const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            const res = await fetch(`${API_URL}/api/resources`, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
 
-    // Upcoming Events
-    const upcomingEvents = [
-        { id: 1, title: 'Workshop: Advanced STAAD Pro', date: 'Jan 20, 2026', type: 'Workshop' },
-        { id: 2, title: 'GATE 2026 Mock Test', date: 'Jan 25, 2026', type: 'Test' },
-        { id: 3, title: 'Industry Visit: L&T', date: 'Feb 1, 2026', type: 'Visit' },
-    ];
+            if (data.success) {
+                alert(`File "${uploadFile.name}" uploaded successfully!`);
+                setUploadModalOpen(false);
+                setUploadFile(null);
+                // Optionally refresh list here
+            } else {
+                alert(`Upload failed: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Upload Error:', error);
+            alert('Upload failed due to connection error.');
+        } finally {
+            setUploading(false);
+        }
+    };
 
     return (
         <div className="dashboard-home">
@@ -74,13 +111,16 @@ const DashboardHome = () => {
             <div className="welcome-section">
                 <div className="welcome-content">
                     <h1>Welcome back, <span className="gradient-text">Engineer!</span></h1>
-                    <p>Continue your learning journey. Here's what's new for you.</p>
+                    <p>Your learning dashboard is ready. Upload resources to contribute.</p>
                 </div>
                 <div className="quick-actions">
-                    <Link to="/dashboard/pyq" className="quick-action-btn primary">
-                        <FileText size={18} />
-                        Browse PYQ Papers
-                    </Link>
+                    <button
+                        onClick={() => setUploadModalOpen(true)}
+                        className="quick-action-btn primary"
+                    >
+                        <UploadCloud size={18} />
+                        Upload Resource
+                    </button>
                     <Link to="/dashboard/forum" className="quick-action-btn secondary">
                         <MessageSquare size={18} />
                         Ask a Question
@@ -107,33 +147,37 @@ const DashboardHome = () => {
                 ))}
             </div>
 
-            {/* Main Content Grid */}
+            {/* Main Content Grid - Empty States */}
             <div className="content-grid">
                 {/* Recent PYQ Papers */}
                 <div className="content-card papers-card">
                     <div className="card-header">
-                        <h2><FileText size={20} /> Recent PYQ Papers</h2>
+                        <h2><FileText size={20} /> Recent Resources</h2>
                         <Link to="/dashboard/pyq" className="view-all">
                             View All <ArrowRight size={16} />
                         </Link>
                     </div>
                     <div className="card-content">
-                        {recentPapers.map((paper) => (
-                            <div key={paper.id} className="paper-item">
-                                <div className="paper-info">
-                                    <span className={`paper-type ${paper.type.toLowerCase().replace(' ', '-')}`}>
-                                        {paper.type}
-                                    </span>
-                                    <h4>{paper.title}</h4>
-                                    <span className="paper-date">
-                                        <Clock size={12} /> {paper.date}
-                                    </span>
+                        {recentPapers.length > 0 ? (
+                            recentPapers.map((paper) => (
+                                <div key={paper.id} className="paper-item">
+                                    <div className="paper-info">
+                                        <span className={`paper-type ${paper.type ? paper.type.toLowerCase() : 'other'}`}>
+                                            {paper.type || 'Resource'}
+                                        </span>
+                                        <h4>{paper.title}</h4>
+                                        <span className="paper-date">
+                                            <Clock size={12} /> {paper.date}
+                                        </span>
+                                    </div>
+                                    <div className="paper-stats">
+                                        <span><Download size={14} /> {paper.downloads}</span>
+                                    </div>
                                 </div>
-                                <div className="paper-stats">
-                                    <span><Download size={14} /> {paper.downloads}</span>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <p className="text-gray-500 text-sm p-4">No resources uploaded yet.</p>
+                        )}
                     </div>
                 </div>
 
@@ -145,69 +189,8 @@ const DashboardHome = () => {
                             View All <ArrowRight size={16} />
                         </Link>
                     </div>
-                    <div className="card-content">
-                        {popularCourses.map((course) => (
-                            <div key={course.id} className="course-item">
-                                <div className="course-thumbnail">
-                                    <Play size={20} />
-                                </div>
-                                <div className="course-info">
-                                    <h4>{course.title}</h4>
-                                    <div className="course-meta">
-                                        <span>{course.lessons} lessons</span>
-                                        <span>{course.duration}</span>
-                                        <span className="rating">
-                                            <Star size={12} /> {course.rating}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Forum Activity */}
-                <div className="content-card forum-card">
-                    <div className="card-header">
-                        <h2><MessageSquare size={20} /> Forum Activity</h2>
-                        <Link to="/dashboard/forum" className="view-all">
-                            View All <ArrowRight size={16} />
-                        </Link>
-                    </div>
-                    <div className="card-content">
-                        {forumQuestions.map((question) => (
-                            <div key={question.id} className="forum-item">
-                                <h4>{question.title}</h4>
-                                <div className="forum-meta">
-                                    <span><MessageSquare size={12} /> {question.replies} replies</span>
-                                    <span><Eye size={12} /> {question.views} views</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Upcoming Events */}
-                <div className="content-card events-card">
-                    <div className="card-header">
-                        <h2><Award size={20} /> Upcoming Events</h2>
-                        <Link to="/dashboard/events" className="view-all">
-                            View All <ArrowRight size={16} />
-                        </Link>
-                    </div>
-                    <div className="card-content">
-                        {upcomingEvents.map((event) => (
-                            <div key={event.id} className="event-item">
-                                <div className="event-date">
-                                    <span className="event-day">{event.date.split(',')[0].split(' ')[1]}</span>
-                                    <span className="event-month">{event.date.split(',')[0].split(' ')[0]}</span>
-                                </div>
-                                <div className="event-info">
-                                    <h4>{event.title}</h4>
-                                    <span className={`event-type ${event.type.toLowerCase()}`}>{event.type}</span>
-                                </div>
-                            </div>
-                        ))}
+                    <div className="card-content empty-state">
+                        <p>No tutorials watched yet.</p>
                     </div>
                 </div>
             </div>
@@ -228,20 +211,63 @@ const DashboardHome = () => {
                         <span className="ql-icon staad">S</span>
                         <span>STAAD Pro</span>
                     </Link>
-                    <Link to="/dashboard/lessons/structural" className="quick-link">
-                        <span className="ql-icon structural">📐</span>
-                        <span>Structures</span>
-                    </Link>
-                    <Link to="/dashboard/jobs" className="quick-link">
-                        <span className="ql-icon jobs">💼</span>
-                        <span>Jobs</span>
-                    </Link>
                     <Link to="/dashboard/forum" className="quick-link">
                         <span className="ql-icon forum">💬</span>
                         <span>Forum</span>
                     </Link>
                 </div>
             </div>
+
+            {/* Upload Modal */}
+            {uploadModalOpen && (
+                <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative animate-in fade-in zoom-in duration-200">
+                        <button
+                            onClick={() => setUploadModalOpen(false)}
+                            className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+                        >
+                            <X size={20} />
+                        </button>
+
+                        <div className="text-center mb-6">
+                            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
+                                <UploadCloud size={24} />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900">Upload Resource</h3>
+                            <p className="text-sm text-gray-500 mt-1">Share papers, notes, or tutorials with the community.</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-500 hover:bg-blue-50/50 transition-colors cursor-pointer relative">
+                                <input
+                                    type="file"
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    onChange={handleFileChange}
+                                />
+                                {uploadFile ? (
+                                    <div className="text-blue-600 font-medium flex items-center justify-center gap-2">
+                                        <FileText size={16} />
+                                        {uploadFile.name}
+                                    </div>
+                                ) : (
+                                    <>
+                                        <p className="text-sm font-medium text-gray-700">Click to selecet file</p>
+                                        <p className="text-xs text-gray-400 mt-1">PDF, DOCX, JPG up to 10MB</p>
+                                    </>
+                                )}
+                            </div>
+
+                            <button
+                                onClick={handleUpload}
+                                disabled={!uploadFile || uploading}
+                                className="w-full py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
+                                {uploading ? 'Uploading...' : 'Upload Now'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
