@@ -1,41 +1,39 @@
 services:
-  # Frontend Web Service (with serve for SPA routing)
+  # Backend Service
   - type: web
-    name: acebit-sindri-website
-    env: node
-    plan: free
-    buildCommand: cd frontend && npm install --legacy-peer-deps && npm run build
-    startCommand: cd frontend && npx serve -s build -l 10000
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: CI
-        value: false
-      - key: GENERATE_SOURCEMAP
-        value: false
-      - key: REACT_APP_BACKEND_API
-        value: https://acebit-backend-7kbc.onrender.com/api
-    autoDeploy: true
-    branch: main
-
-  # Backend Web Service
-  - type: web
-    name: acebit-backend
+    name: acebits-backend
     runtime: node
-    env: node
     region: singapore
     plan: free
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && npm start
-    healthCheckPath: /api/health
+    branch: main
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 5001
-      - key: MONGODB_URI
-        sync: false
-      - key: CORS_ORIGIN
-        value: https://acebitsf.onrender.com,https://acebit-sindri-website.onrender.com,https://acebits.onrender.com,https://acebits.in,https://www.acebits.in,https://acebits1.onrender.com
-    autoDeploy: true
-    branch: main 
+      # Add these in Render dashboard:
+      # - MONGODB_URI
+      # - JWT_SECRET
+      # - CLOUDINARY_CLOUD_NAME
+      # - CLOUDINARY_API_KEY
+      # - CLOUDINARY_API_SECRET
+      # - CORS_ORIGIN
+
+  # Frontend Service
+  - type: web
+    name: acebits-frontend
+    runtime: node
+    region: singapore
+    plan: free
+    branch: main
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s build -p 3000
+    envVars:
+      - key: NODE_VERSION
+        value: 18.17.0
+      # Add in Render dashboard:
+      # - REACT_APP_API_URL (your backend URL)
