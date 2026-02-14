@@ -24,6 +24,7 @@
 
 .gradient-text {
     background: var(--dash-gradient);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -235,10 +236,25 @@
     text-transform: uppercase;
 }
 
-.paper-type.gate { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
-.paper-type.ese { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-.paper-type.ssc-je { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-.paper-type.university { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+.paper-type.gate {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+}
+
+.paper-type.ese {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
+
+.paper-type.ssc-je {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+}
+
+.paper-type.university {
+    background: rgba(236, 72, 153, 0.2);
+    color: #f472b6;
+}
 
 .paper-date {
     display: flex;
@@ -403,9 +419,20 @@
     border-radius: 20px;
 }
 
-.event-type.workshop { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
-.event-type.test { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-.event-type.visit { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.event-type.workshop {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+}
+
+.event-type.test {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+.event-type.visit {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
 
 /* Quick Links Section */
 .quick-links-section {
@@ -458,12 +485,35 @@
     font-weight: 700;
 }
 
-.ql-icon.gate { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
-.ql-icon.autocad { background: linear-gradient(135deg, #ef4444, #f97316); color: white; }
-.ql-icon.staad { background: linear-gradient(135deg, #10b981, #06b6d4); color: white; }
-.ql-icon.structural { background: linear-gradient(135deg, #f59e0b, #eab308); font-size: 1.4rem; }
-.ql-icon.jobs { background: linear-gradient(135deg, #ec4899, #8b5cf6); font-size: 1.4rem; }
-.ql-icon.forum { background: linear-gradient(135deg, #06b6d4, #3b82f6); font-size: 1.4rem; }
+.ql-icon.gate {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+}
+
+.ql-icon.autocad {
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    color: white;
+}
+
+.ql-icon.staad {
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+    color: white;
+}
+
+.ql-icon.structural {
+    background: linear-gradient(135deg, #f59e0b, #eab308);
+    font-size: 1.4rem;
+}
+
+.ql-icon.jobs {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    font-size: 1.4rem;
+}
+
+.ql-icon.forum {
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    font-size: 1.4rem;
+}
 
 .quick-link span:last-child {
     font-size: 0.85rem;
@@ -485,31 +535,87 @@
     .welcome-section {
         flex-direction: column;
         text-align: center;
-        gap: 20px;
+        gap: 16px;
+        padding: 20px;
     }
 
     .welcome-content h1 {
         font-size: 1.5rem;
     }
 
+    .welcome-content p {
+        font-size: 0.9rem;
+    }
+
     .quick-actions {
         flex-direction: column;
         width: 100%;
+        gap: 10px;
     }
 
     .quick-action-btn {
         justify-content: center;
+        width: 100%;
     }
 
     .stats-grid {
         grid-template-columns: 1fr;
+        /* Stack stats vertically */
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 16px;
+        /* Reduce padding on mobile */
+        flex-direction: row;
+        /* Horizontal layout for stats on mobile looks better */
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
     }
 
     .content-grid {
         grid-template-columns: 1fr;
     }
 
+    .card-header {
+        padding: 16px;
+    }
+
+    .card-content {
+        padding: 16px;
+    }
+
     .quick-links-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-home {
+        padding-bottom: 60px;
+        /* Space for bottom nav if needed */
+    }
+
+    .welcome-content h1 {
+        font-size: 1.3rem;
+    }
+
+    .quick-links-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        flex-direction: column;
+        /* Stack back on very small screens if needed, or keep row */
+        align-items: flex-start;
     }
 }

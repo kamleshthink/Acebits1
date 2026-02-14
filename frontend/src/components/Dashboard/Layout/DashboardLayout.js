@@ -245,6 +245,9 @@ const DashboardLayout = ({ children }) => {
                         >
                             <Menu size={24} />
                         </button>
+                        <div className="header-logo-mobile" style={{ display: window.innerWidth <= 480 ? 'block' : 'none' }}>
+                            ACE BITS
+                        </div>
                         <div className="search-box">
                             <Search size={18} className="search-icon" />
                             <input

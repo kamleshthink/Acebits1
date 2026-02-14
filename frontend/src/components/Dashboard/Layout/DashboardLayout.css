@@ -96,6 +96,7 @@
     font-size: 1.25rem;
     font-weight: 700;
     background: var(--dash-gradient);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -567,7 +568,10 @@
 @media (max-width: 768px) {
     .dashboard-sidebar {
         transform: translateX(-100%);
-        width: var(--sidebar-width);
+        width: 280px;
+        /* Slightly wider for better touch targets */
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+        /* Shadow for overlay feel */
     }
 
     .dashboard-sidebar.open {
@@ -576,14 +580,29 @@
 
     .dashboard-main {
         margin-left: 0;
+        width: 100%;
     }
 
     .mobile-menu-btn {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        margin-right: 8px;
     }
 
     .search-box {
-        width: 200px;
+        width: auto;
+        flex: 1;
+        max-width: 200px;
+    }
+
+    .search-box input {
+        padding: 10px 16px 10px 36px;
+    }
+
+    .search-icon {
+        left: 12px;
     }
 
     .profile-name {
@@ -592,16 +611,41 @@
 
     .dashboard-content {
         padding: 16px;
+        /* Reduced padding */
+    }
+
+    .header-right {
+        gap: 8px;
+    }
+
+    .header-btn {
+        padding: 8px;
     }
 }
 
 @media (max-width: 480px) {
     .search-box {
         display: none;
+        /* Hide search on very small screens to save space */
     }
 
     .dashboard-header {
         padding: 0 16px;
+        height: 60px;
+    }
+
+    .dashboard-content {
+        padding: 12px;
+    }
+
+    .header-logo-mobile {
+        display: block;
+        /* If we want to show logo in header on mobile */
+        font-weight: bold;
+        font-size: 1.1rem;
+        background: var(--dash-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 }
 
