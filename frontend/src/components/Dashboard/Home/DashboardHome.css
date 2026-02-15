@@ -204,11 +204,11 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    border-radius: 10px;
+    border-radius: 12px;
     background: var(--dash-bg-tertiary);
     margin-bottom: 12px;
     transition: all 0.2s ease;
-    cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .paper-item:last-child {
@@ -216,60 +216,86 @@
 }
 
 .paper-item:hover {
+    background: white;
+    border-color: var(--dash-accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.paper-icon-wrapper {
+    width: 42px;
+    height: 42px;
     background: rgba(99, 102, 241, 0.1);
-    border: 1px solid var(--dash-accent);
-    margin-left: -1px;
-    margin-right: -1px;
+    color: var(--dash-accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.paper-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .paper-info h4 {
     font-size: 0.95rem;
-    font-weight: 500;
-    margin: 8px 0 4px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--dash-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.paper-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .paper-type {
     font-size: 0.7rem;
     font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
+    padding: 2px 8px;
+    border-radius: 4px;
     text-transform: uppercase;
-}
-
-.paper-type.gate {
-    background: rgba(99, 102, 241, 0.2);
-    color: #818cf8;
-}
-
-.paper-type.ese {
-    background: rgba(16, 185, 129, 0.2);
-    color: #34d399;
-}
-
-.paper-type.ssc-je {
-    background: rgba(245, 158, 11, 0.2);
-    color: #fbbf24;
-}
-
-.paper-type.university {
-    background: rgba(236, 72, 153, 0.2);
-    color: #f472b6;
+    background: var(--dash-bg-card);
+    border: 1px solid var(--dash-border);
 }
 
 .paper-date {
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--dash-text-muted);
 }
 
-.paper-stats {
+.download-btn {
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 0.85rem;
+    justify-content: center;
+    background: var(--dash-bg-card);
+    border: 1px solid var(--dash-border);
+    border-radius: 8px;
     color: var(--dash-text-secondary);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    background: var(--dash-accent);
+    color: white;
+    border-color: var(--dash-accent);
+    box-shadow: 0 4px 10px var(--dash-accent-glow);
 }
 
 /* Course Items */

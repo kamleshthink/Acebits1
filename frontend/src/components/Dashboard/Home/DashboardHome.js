@@ -12,10 +12,10 @@ const DashboardHome = () => {
     const [uploading, setUploading] = useState(false);
 
     const [stats, setStats] = useState([
-        { title: 'Total Papers', value: '0', icon: FileText, change: 'No recent activity', color: '#6366f1' },
-        { title: 'Study Notes', value: '0', icon: BookOpen, change: 'No recent activity', color: '#10b981' },
-        { title: 'Other Resources', value: '0', icon: Monitor, change: 'No new uploads', color: '#f59e0b' },
-        { title: 'Active Members', value: '0', icon: Users, change: 'Community growing', color: '#ec4899' }
+        { title: 'Total Papers', value: '0', icon: FileText, change: '', color: '#6366f1' },
+        { title: 'Study Notes', value: '0', icon: BookOpen, change: '', color: '#10b981' },
+        { title: 'Other Resources', value: '0', icon: Monitor, change: '', color: '#f59e0b' },
+        { title: 'Active Members', value: '0', icon: Users, change: '', color: '#ec4899' }
     ]);
     const [recentPapers, setRecentPapers] = useState([]);
 
@@ -33,9 +33,9 @@ const DashboardHome = () => {
                     const othersCount = resources.length - papersCount - notesCount;
 
                     setStats(prev => [
-                        { ...prev[0], value: papersCount.toString(), change: 'Updated just now' },
-                        { ...prev[1], value: notesCount.toString(), change: 'Updated just now' },
-                        { ...prev[2], value: othersCount.toString(), change: 'Updated just now' },
+                        { ...prev[0], value: papersCount.toString(), change: '' },
+                        { ...prev[1], value: notesCount.toString(), change: '' },
+                        { ...prev[2], value: othersCount.toString(), change: '' },
                         prev[3]
                     ]);
 
@@ -45,7 +45,8 @@ const DashboardHome = () => {
                         title: r.title,
                         type: r.category,
                         downloads: 0,
-                        date: new Date(r.createdAt).toLocaleDateString()
+                        date: new Date(r.createdAt).toLocaleDateString(),
+                        fileUrl: r.fileUrl // Include fileUrl
                     }));
                     setRecentPapers(recent);
                 }
@@ -107,7 +108,7 @@ const DashboardHome = () => {
 
     return (
         <div className="dashboard-home">
-            {/* Welcome Section */}
+            {/* ... (Welcome Section & Stats Cards remain unchanged) ... */}
             <div className="welcome-section">
                 <div className="welcome-content">
                     <h1>Welcome back, <span className="gradient-text">Engineer!</span></h1>
@@ -139,10 +140,12 @@ const DashboardHome = () => {
                             <span className="stat-value">{stat.value}</span>
                             <span className="stat-title">{stat.title}</span>
                         </div>
-                        <div className="stat-change">
-                            <TrendingUp size={14} />
-                            {stat.change}
-                        </div>
+                        {stat.change && (
+                            <div className="stat-change">
+                                <TrendingUp size={14} />
+                                {stat.change}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
@@ -161,18 +164,30 @@ const DashboardHome = () => {
                         {recentPapers.length > 0 ? (
                             recentPapers.map((paper) => (
                                 <div key={paper.id} className="paper-item">
+                                    <div className="paper-icon-wrapper">
+                                        {paper.type === 'pdf' ? <FileText size={24} /> :
+                                            paper.type === 'doc' ? <BookOpen size={24} /> : <Monitor size={24} />}
+                                    </div>
                                     <div className="paper-info">
-                                        <span className={`paper-type ${paper.type ? paper.type.toLowerCase() : 'other'}`}>
-                                            {paper.type || 'Resource'}
-                                        </span>
                                         <h4>{paper.title}</h4>
-                                        <span className="paper-date">
-                                            <Clock size={12} /> {paper.date}
-                                        </span>
+                                        <div className="paper-meta">
+                                            <span className={`paper-type ${paper.type ? paper.type.toLowerCase() : 'other'}`}>
+                                                {paper.type || 'Resource'}
+                                            </span>
+                                            <span className="paper-date">
+                                                <Clock size={12} /> {paper.date}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="paper-stats">
-                                        <span><Download size={14} /> {paper.downloads}</span>
-                                    </div>
+                                    <a
+                                        href={paper.fileUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="download-btn"
+                                        title="Download Resource"
+                                    >
+                                        <Download size={18} />
+                                    </a>
                                 </div>
                             ))
                         ) : (
