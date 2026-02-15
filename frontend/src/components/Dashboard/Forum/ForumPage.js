@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     MessageSquare, ThumbsUp, Eye, Clock, Search, Filter,
     TrendingUp, Tag, Plus, User, MessageCircle, Award,
-    ChevronUp, ChevronDown, CheckCircle, Bookmark
+    ChevronUp, ChevronDown, CheckCircle, Bookmark, X
 } from 'lucide-react';
 import './ForumPage.css';
 
@@ -11,124 +11,119 @@ const ForumPage = () => {
     const [activeTab, setActiveTab] = useState('recent');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTag, setSelectedTag] = useState('all');
+    const [questions, setQuestions] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [isAskModalOpen, setIsAskModalOpen] = useState(false);
 
-    const tags = [
-        { name: 'All', count: 450 },
-        { name: 'GATE', count: 120 },
-        { name: 'Structures', count: 85 },
-        { name: 'Geotechnical', count: 65 },
-        { name: 'AutoCAD', count: 55 },
-        { name: 'STAAD Pro', count: 45 },
-        { name: 'Career', count: 40 },
-        { name: 'Interview', count: 35 }
-    ];
+    // New Question Form State
+    const [newQuestion, setNewQuestion] = useState({
+        title: '',
+        content: '',
+        tags: ''
+    });
+    const [submitting, setSubmitting] = useState(false);
 
-    const questions = [
-        {
-            id: 1,
-            title: 'How to design RCC beam for cantilever projection more than 2m?',
-            content: 'I am designing a residential building and there is a cantilever projection of 2.5m. What should be the depth of beam and reinforcement details?',
-            author: 'Rahul Kumar',
-            avatar: 'RK',
-            time: '2 hours ago',
-            views: 234,
-            answers: 8,
-            upvotes: 24,
-            tags: ['Structures', 'RCC', 'Design'],
-            isAnswered: true,
-            isTrending: true
-        },
-        {
-            id: 2,
-            title: 'Best books for GATE Civil Engineering preparation?',
-            content: 'I am preparing for GATE 2026. Can anyone suggest the best books for each subject? Especially for Structural Engineering and Geotechnical.',
-            author: 'Priya Singh',
-            avatar: 'PS',
-            time: '5 hours ago',
-            views: 567,
-            answers: 18,
-            upvotes: 45,
-            tags: ['GATE', 'Books', 'Preparation'],
-            isAnswered: true,
-            isTrending: true
-        },
-        {
-            id: 3,
-            title: 'STAAD Pro vs ETABS - Which is better for high-rise building analysis?',
-            content: 'Working on a 20-story building project. Should I use STAAD Pro or ETABS for structural analysis? What are the pros and cons?',
-            author: 'Amit Sharma',
-            avatar: 'AS',
-            time: '1 day ago',
-            views: 891,
-            answers: 24,
-            upvotes: 67,
-            tags: ['STAAD Pro', 'ETABS', 'Software'],
-            isAnswered: true,
-            isTrending: false
-        },
-        {
-            id: 4,
-            title: 'What is the minimum lap length for Fe500 steel as per IS 456?',
-            content: 'Need clarification on lap length requirements for Fe500 reinforcement in columns. Is it 45d or 50d?',
-            author: 'Vikash Yadav',
-            avatar: 'VY',
-            time: '2 days ago',
-            views: 345,
-            answers: 6,
-            upvotes: 18,
-            tags: ['IS Code', 'RCC', 'Reinforcement'],
-            isAnswered: true,
-            isTrending: false
-        },
-        {
-            id: 5,
-            title: 'How to calculate bearing capacity of soil from SPT N-value?',
-            content: 'Got SPT results for my site. N-value varies from 8 to 25 at different depths. How do I calculate safe bearing capacity?',
-            author: 'Neha Gupta',
-            avatar: 'NG',
-            time: '3 days ago',
-            views: 456,
-            answers: 12,
-            upvotes: 32,
-            tags: ['Geotechnical', 'Foundation', 'SPT'],
-            isAnswered: false,
-            isTrending: false
-        },
-        {
-            id: 6,
-            title: 'AutoCAD Civil 3D - How to create corridor for road design?',
-            content: 'New to Civil 3D. Need to design a 2km road with proper cross-sections. Any tutorial or step-by-step guide?',
-            author: 'Rohit Verma',
-            avatar: 'RV',
-            time: '4 days ago',
-            views: 289,
-            answers: 5,
-            upvotes: 15,
-            tags: ['AutoCAD', 'Civil 3D', 'Road Design'],
-            isAnswered: false,
-            isTrending: false
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+
+    // Fetch questions
+    useEffect(() => {
+        fetchQuestions();
+    }, [activeTab, selectedTag, searchQuery]);
+
+    const fetchQuestions = async () => {
+        try {
+            setLoading(true);
+            let url = `${API_URL}/api/forum?sort=${activeTab}`;
+
+            if (selectedTag !== 'all') {
+                url += `&tag=${selectedTag}`;
+            }
+
+            if (searchQuery) {
+                // Debounce could be added here
+                url += `&search=${searchQuery}`;
+            }
+
+            const res = await fetch(url);
+            const data = await res.json();
+
+            if (data.success) {
+                setQuestions(data.data);
+            }
+        } catch (error) {
+            console.error('Error fetching questions:', error);
+        } finally {
+            setLoading(false);
         }
-    ];
+    };
 
-    const topContributors = [
-        { name: 'Prof. A.K. Sharma', answers: 156, badge: 'Expert' },
-        { name: 'Er. Rajesh Kumar', answers: 98, badge: 'Pro' },
-        { name: 'Dr. S. Mishra', answers: 87, badge: 'Expert' },
-        { name: 'Vikram Singh', answers: 65, badge: 'Active' },
-    ];
+    const handleAskQuestion = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
 
-    const filteredQuestions = questions.filter(q => {
-        const matchesSearch = q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            q.content.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesTag = selectedTag === 'all' || q.tags.some(t => t.toLowerCase() === selectedTag.toLowerCase());
-        return matchesSearch && matchesTag;
-    });
+        try {
+            const userStr = localStorage.getItem('aceUser');
+            const user = userStr ? JSON.parse(userStr) : null;
 
-    const sortedQuestions = [...filteredQuestions].sort((a, b) => {
-        if (activeTab === 'trending') return b.upvotes - a.upvotes;
-        if (activeTab === 'unanswered') return a.answers - b.answers;
-        return 0; // recent - keep original order
-    });
+            const tagsArray = newQuestion.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+            const res = await fetch(`${API_URL}/api/forum`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: newQuestion.title,
+                    content: newQuestion.content,
+                    tags: tagsArray,
+                    author: user ? (user.name || user.email.split('@')[0]) : 'Anonymous Engineer',
+                    authorId: user ? user.id : null
+                })
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                setIsAskModalOpen(false);
+                setNewQuestion({ title: '', content: '', tags: '' });
+                fetchQuestions(); // Refresh list
+                alert('Question posted successfully!');
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Error posting question:', error);
+            alert('Failed to post question');
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    // Calculate dynamic stats
+    const totalViews = questions.reduce((acc, q) => acc + (q.views || 0), 0);
+    const totalAnswers = questions.reduce((acc, q) => acc + (q.answers ? q.answers.length : 0), 0);
+    const resolvedCount = questions.filter(q => q.isAnswered).length;
+    const resolvedPercentage = questions.length > 0 ? Math.round((resolvedCount / questions.length) * 100) : 0;
+
+    // Calculate tag counts dynamically
+    const getTagCounts = () => {
+        const counts = { 'all': questions.length };
+        questions.forEach(q => {
+            if (q.tags && Array.isArray(q.tags)) {
+                q.tags.forEach(tag => {
+                    const normalized = tag.toLowerCase();
+                    counts[normalized] = (counts[normalized] || 0) + 1;
+                });
+            }
+        });
+        return counts;
+    };
+
+    const tagCounts = getTagCounts();
+    const sortedTags = Object.keys(tagCounts)
+        .filter(tag => tag !== 'all')
+        .sort((a, b) => tagCounts[b] - tagCounts[a])
+        .slice(0, 8); // Top 8 tags
 
     return (
         <div className="forum-page">
@@ -138,7 +133,7 @@ const ForumPage = () => {
                     <h1><MessageSquare size={28} /> Discussion Forum</h1>
                     <p>Ask questions, share knowledge, help fellow engineers</p>
                 </div>
-                <button className="ask-btn">
+                <button className="ask-btn" onClick={() => setIsAskModalOpen(true)}>
                     <Plus size={18} />
                     Ask Question
                 </button>
@@ -149,28 +144,28 @@ const ForumPage = () => {
                 <div className="stat-box">
                     <MessageSquare size={24} />
                     <div>
-                        <span className="stat-value">2,450</span>
+                        <span className="stat-value">{questions.length}</span>
                         <span className="stat-label">Questions</span>
                     </div>
                 </div>
                 <div className="stat-box">
                     <MessageCircle size={24} />
                     <div>
-                        <span className="stat-value">8,920</span>
+                        <span className="stat-value">{totalAnswers}</span>
                         <span className="stat-label">Answers</span>
                     </div>
                 </div>
                 <div className="stat-box">
-                    <User size={24} />
+                    <Eye size={24} />
                     <div>
-                        <span className="stat-value">1,250</span>
-                        <span className="stat-label">Members</span>
+                        <span className="stat-value">{totalViews}</span>
+                        <span className="stat-label">Total Views</span>
                     </div>
                 </div>
                 <div className="stat-box">
                     <CheckCircle size={24} />
                     <div>
-                        <span className="stat-value">78%</span>
+                        <span className="stat-value">{resolvedPercentage}%</span>
                         <span className="stat-label">Resolved</span>
                     </div>
                 </div>
@@ -214,56 +209,62 @@ const ForumPage = () => {
 
                     {/* Questions List */}
                     <div className="questions-list">
-                        {sortedQuestions.map((question) => (
-                            <div key={question.id} className="question-card">
-                                <div className="vote-section">
-                                    <button className="vote-btn up">
-                                        <ChevronUp size={20} />
-                                    </button>
-                                    <span className="vote-count">{question.upvotes}</span>
-                                    <button className="vote-btn down">
-                                        <ChevronDown size={20} />
-                                    </button>
-                                </div>
-                                <div className="question-content">
-                                    <div className="question-header">
-                                        {question.isAnswered && (
-                                            <span className="answered-badge">
-                                                <CheckCircle size={14} /> Answered
-                                            </span>
-                                        )}
-                                        {question.isTrending && (
-                                            <span className="trending-badge">
-                                                <TrendingUp size={14} /> Trending
-                                            </span>
-                                        )}
-                                    </div>
-                                    <h3 className="question-title">
-                                        <Link to={`/dashboard/forum/${question.id}`}>{question.title}</Link>
-                                    </h3>
-                                    <p className="question-excerpt">{question.content}</p>
-                                    <div className="question-tags">
-                                        {question.tags.map((tag, i) => (
-                                            <span key={i} className="tag">{tag}</span>
-                                        ))}
-                                    </div>
-                                    <div className="question-meta">
-                                        <div className="author">
-                                            <div className="author-avatar">{question.avatar}</div>
-                                            <span>{question.author}</span>
-                                        </div>
-                                        <div className="meta-stats">
-                                            <span><Clock size={14} /> {question.time}</span>
-                                            <span><Eye size={14} /> {question.views}</span>
-                                            <span><MessageCircle size={14} /> {question.answers} answers</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button className="bookmark-btn">
-                                    <Bookmark size={18} />
-                                </button>
+                        {loading ? (
+                            <div className="loading-state">Loading discussions...</div>
+                        ) : questions.length === 0 ? (
+                            <div className="empty-state">
+                                <MessageSquare size={48} />
+                                <h3>No questions found</h3>
+                                <p>Be the first to ask a question in this category!</p>
                             </div>
-                        ))}
+                        ) : (
+                            questions.map((question) => (
+                                <div key={question._id || question.id} className="question-card">
+                                    <div className="vote-section">
+                                        <button className="vote-btn up">
+                                            <ChevronUp size={20} />
+                                        </button>
+                                        <span className="vote-count">{question.upvotes ? question.upvotes.length : 0}</span>
+                                        <button className="vote-btn down">
+                                            <ChevronDown size={20} />
+                                        </button>
+                                    </div>
+                                    <div className="question-content">
+                                        <div className="question-header">
+                                            {question.isAnswered && (
+                                                <span className="answered-badge">
+                                                    <CheckCircle size={14} /> Answered
+                                                </span>
+                                            )}
+                                        </div>
+                                        <h3 className="question-title">
+                                            <Link to={`/dashboard/forum/${question._id || question.id}`}>{question.title}</Link>
+                                        </h3>
+                                        <p className="question-excerpt">
+                                            {question.content && question.content.length > 150
+                                                ? `${question.content.substring(0, 150)}...`
+                                                : question.content}
+                                        </p>
+                                        <div className="question-tags">
+                                            {question.tags && question.tags.map((tag, i) => (
+                                                <span key={i} className="tag">{tag}</span>
+                                            ))}
+                                        </div>
+                                        <div className="question-meta">
+                                            <div className="author">
+                                                <div className="author-avatar">{question.avatar || (question.author ? question.author.charAt(0) : 'U')}</div>
+                                                <span>{question.author}</span>
+                                            </div>
+                                            <div className="meta-stats">
+                                                <span><Clock size={14} /> {new Date(question.createdAt).toLocaleDateString()}</span>
+                                                <span><Eye size={14} /> {question.views || 0}</span>
+                                                <span><MessageCircle size={14} /> {question.answers ? question.answers.length : 0} answers</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
 
@@ -273,37 +274,26 @@ const ForumPage = () => {
                     <div className="sidebar-card">
                         <h3><Tag size={18} /> Popular Tags</h3>
                         <div className="tags-list">
-                            {tags.map((tag, i) => (
+                            <button
+                                className={`tag-btn ${selectedTag === 'all' ? 'active' : ''}`}
+                                onClick={() => setSelectedTag('all')}
+                            >
+                                All <span className="tag-count">{questions.length}</span>
+                            </button>
+                            {sortedTags.map((tag, i) => (
                                 <button
                                     key={i}
-                                    className={`tag-btn ${selectedTag === (tag.name === 'All' ? 'all' : tag.name.toLowerCase()) ? 'active' : ''}`}
-                                    onClick={() => setSelectedTag(tag.name === 'All' ? 'all' : tag.name.toLowerCase())}
+                                    className={`tag-btn ${selectedTag === tag ? 'active' : ''}`}
+                                    onClick={() => setSelectedTag(tag)}
                                 >
-                                    {tag.name}
-                                    <span className="tag-count">{tag.count}</span>
+                                    {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                                    <span className="tag-count">{tagCounts[tag]}</span>
                                 </button>
                             ))}
                         </div>
                     </div>
 
-                    {/* Top Contributors */}
-                    <div className="sidebar-card">
-                        <h3><Award size={18} /> Top Contributors</h3>
-                        <div className="contributors-list">
-                            {topContributors.map((contributor, i) => (
-                                <div key={i} className="contributor">
-                                    <div className="contributor-rank">{i + 1}</div>
-                                    <div className="contributor-info">
-                                        <span className="contributor-name">{contributor.name}</span>
-                                        <span className="contributor-stats">{contributor.answers} answers</span>
-                                    </div>
-                                    <span className={`contributor-badge ${contributor.badge.toLowerCase()}`}>
-                                        {contributor.badge}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    {/* Guidelines */}
 
                     {/* Guidelines */}
                     <div className="sidebar-card guidelines">
@@ -318,6 +308,69 @@ const ForumPage = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Ask Question Modal */}
+            {isAskModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content animate-in">
+                        <button
+                            onClick={() => setIsAskModalOpen(false)}
+                            className="modal-close-btn"
+                        >
+                            <X size={20} />
+                        </button>
+
+                        <div className="modal-header">
+                            <h3>
+                                <Plus size={20} />
+                                Ask a Question
+                            </h3>
+                        </div>
+
+                        <form onSubmit={handleAskQuestion} className="modal-form">
+                            <div className="form-group">
+                                <label>Title</label>
+                                <input
+                                    type="text"
+                                    required
+                                    placeholder="e.g., How to calculate beam deflection?"
+                                    value={newQuestion.title}
+                                    onChange={(e) => setNewQuestion({ ...newQuestion, title: e.target.value })}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Details</label>
+                                <textarea
+                                    required
+                                    rows={6}
+                                    placeholder="Describe your problem in detail..."
+                                    value={newQuestion.content}
+                                    onChange={(e) => setNewQuestion({ ...newQuestion, content: e.target.value })}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Tags (comma separated)</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g., structures, rcc, design"
+                                    value={newQuestion.tags}
+                                    onChange={(e) => setNewQuestion({ ...newQuestion, tags: e.target.value })}
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={submitting}
+                                className="submit-btn"
+                            >
+                                {submitting ? 'Posting...' : 'Post Question'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

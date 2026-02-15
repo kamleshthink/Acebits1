@@ -46,7 +46,7 @@
     color: var(--dash-accent);
 }
 
-.stat-box > div {
+.stat-box>div {
     display: flex;
     flex-direction: column;
 }
@@ -109,6 +109,49 @@
 .tab.active {
     background: var(--dash-accent);
     border-color: var(--dash-accent);
+    color: white;
+}
+
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-btn {
+    padding: 6px 12px;
+    background: var(--dash-bg-tertiary);
+    border: 1px solid var(--dash-border);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--dash-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tag-btn:hover {
+    background: white;
+    border-color: var(--dash-accent);
+}
+
+.tag-btn.active {
+    background: var(--dash-accent);
+    color: white;
+    border-color: var(--dash-accent);
+}
+
+.tag-count {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+}
+
+.tag-btn.active .tag-count {
+    background: rgba(255, 255, 255, 0.2);
     color: white;
 }
 
